@@ -1,0 +1,6 @@
+-- Begin of log for 08-26-17 --
+== EssentialMode started, version 4.6.3 ==
+== EssentialMode started, version 4.6.3 ==
+== EssentialMode started, version 4.6.3 ==
+== EssentialMode started, version 4.6.3 ==
+User (steam:110000101fbb82f) loaded
