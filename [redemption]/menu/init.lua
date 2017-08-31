@@ -21,6 +21,18 @@ Citizen.CreateThread(function()
   end
 end)
 
+Citizen.CreateThread(function ()
+  while true do
+  Citizen.Wait(0)
+    if IsPedUsingAnyScenario(GetPlayerPed(-1)) then
+      if IsControlJustPressed(1, 34) or IsControlJustPressed(1, 32) or IsControlJustPressed(1, 8) or IsControlJustPressed(1, 9) then
+        ClearPedTasks(GetPlayerPed(-1))
+      end
+    end
+
+  end
+end)
+
 function showMenu ()
   ESX.UI.Menu.CloseAll()
 
@@ -51,19 +63,23 @@ function showAnimationMenu ()
       title = 'Animations',
       align = 'left',
       elements = {
-        { label = 'Salut', value = 'wave' },
-        { label = 'Oui', value = 'yes' },
-        { label = 'Non', value = 'no' },
-        { label = 'Avion', value = 'plane' },
-        { label = 'WTF', value = 'wtf' },
-        { label = 'Damn', value = 'damn' },
-        { label = 'Tranquille', value = 'ez' },
-        { label = 'Triste', value = 'depressed' },
-        { label = 'Peur', value = 'fear' },
+        { label = 'Animations de Salutations', value = 'animsSalute' },
+        { label = "Animations d'Humeurs", value = 'animsHumor' },
+        -- { label = 'Animations de Travail', value = 'animsWork' },
+        { label = 'Animations Festives', value = 'animsFestives' },
+        { label = 'Animations Diverses', value = 'animsOthers' },
       }
     },
     function (data, menu)
-      playAnimation(data.current.value)
+      if data.current.value == 'animsSalute' then
+        showAnimationSaluteMenu()
+      elseif data.current.value == 'animsHumor' then
+        showAnimationHumorMenu()
+      elseif data.current.value == 'animsFestives' then
+        showAnimationFestiveMenu()
+      elseif data.current.value == 'animsOthers' then
+        showAnimationOtherMenu()
+      end
     end,
     function(data, menu)
       menu.close()
@@ -71,30 +87,155 @@ function showAnimationMenu ()
   )
 end
 
-function playAnimation (animationId)
-  if animationId == 'no' then
-    TriggerEvent('red:playAnimation', animationId)
-  elseif animationId == 'wave' then
-    TriggerEvent('red:playWave')
-  elseif animationId == 'yes' then
-    TriggerEvent('Yes')
-  elseif animationId == 'plane' then
-    TriggerEvent('T')
-  elseif animationId == 'wtf' then
-    TriggerEvent('Wtf')
-  elseif animationId == 'damn' then
-    TriggerEvent('Damn')
-  elseif animationId == 'ez' then
-    TriggerEvent('Ez')
-  elseif animationId == 'depressed' then
-    TriggerEvent('Depressed')
-  elseif animationId == 'fear' then
-    TriggerEvent('Fear')
+function showAnimationSaluteMenu ()
+  ESX.UI.Menu.Open(
+    'default', GetCurrentResourceName(), 'AnimationSalute',
+    {
+      title = 'Animations de Salutations',
+      align = 'left',
+      elements = {
+        { label = 'Saluer', type = 'animsAction', value = { lib = 'gestures@m@standing@casual', anim = 'gesture_hello' } },
+        { label = "Serrer la main", type = 'animsAction', value = { lib = "mp_common", anim = "givetake1_a" } },
+        { label = 'Tape en 5', type = 'animsAction', value = { lib = "mp_ped_interaction", anim = "highfive_guy_a" } },
+        { label = 'Salut Militaire', type = 'animsAction', value = { lib = "mp_player_int_uppersalute", anim = "mp_player_int_salute" } },
+      }
+    },
+    function (data, menu)
+      playAnimation(data.current.type, data.current.value)
+    end,
+    function(data, menu)
+      menu.close()
+    end
+  )
+end
+
+function showAnimationHumorMenu ()
+  ESX.UI.Menu.Open(
+    'default', GetCurrentResourceName(), 'AnimationHumor',
+    {
+      title = "Animations d'Humeur",
+      align = 'left',
+      elements = {
+        { label = 'Féliciter', type = 'animsActionScenario', value = { anim = 'WORLD_HUMAN_CHEERING' } },
+        { label = "Super", type = 'animsAction', value = { lib = 'anim@mp_player_intcelebrationmale@thumbs_up', anim = 'thumbs_up' } },
+        { label = 'Calme-toi', type = 'animsAction', value = { lib = 'gestures@m@standing@casual', anim = 'gesture_easy_now' } },
+        { label = 'Avoir peur', type = 'animsAction', value = { lib = 'amb@code_human_cower_stand@female@idle_a', anim = 'idle_c' } },
+        { label = "C'est pas Possible!", type = 'animsAction', value = { lib = 'gestures@m@standing@casual', anim = 'gesture_damn' } },
+        { label = 'Enlacer', type = 'animsAction', value = { lib = 'mp_ped_interaction', anim = 'kisses_guy_a' } },
+        { label = "Doigt d'honneur", type = 'animsAction', value = { lib = 'mp_player_int_upperfinger', anim = 'mp_player_int_finger_01_enter' } },
+        { label = 'Branleur', type = 'animsAction', value = { lib = 'mp_player_int_upperwank', anim = 'mp_player_int_wank_01' } },
+        { label = 'Balle dans la tete', type = 'animsAction', value = { lib = 'mp_suicide', anim = 'pistol' } },
+
+      }
+    },
+    function (data, menu)
+      playAnimation(data.current.type, data.current.value)
+    end,
+    function(data, menu)
+      menu.close()
+    end
+  )
+end
+
+function showAnimationFestiveMenu ()
+  ESX.UI.Menu.Open(
+    'default', GetCurrentResourceName(), 'AnimationFestive',
+    {
+      title = "Animations Festives",
+      align = 'left',
+      elements = {
+        { label = 'Danser', type = 'animsAction', value = { lib = 'amb@world_human_partying@female@partying_beer@base', anim = 'base' } },
+        { label = 'Jouer de la musique', type = 'animsActionScenario', value = { anim = 'WORLD_HUMAN_MUSICIAN' } },
+        { label = 'Boire une bière', type = 'animsActionScenario', value = { anim = 'WORLD_HUMAN_DRINKING' } },
+        { label = 'Air Guitar', type = 'animsAction', value = { lib = 'anim@mp_player_intcelebrationfemale@air_guitar', anim = 'air_guitar' } },
+      }
+    },
+    function (data, menu)
+      playAnimation(data.current.type, data.current.value)
+    end,
+    function(data, menu)
+      menu.close()
+    end
+  )
+end
+
+function showAnimationOtherMenu ()
+  ESX.UI.Menu.Open(
+    'default', GetCurrentResourceName(), 'AnimationFestive',
+    {
+      title = "Animations Festives",
+      align = 'left',
+      elements = {
+        { label = 'Fumer une clope', type = 'animsActionScenario', value = { anim = 'WORLD_HUMAN_SMOKING' } },
+        { label = "S'asseoir", type = 'animsAction', value = { lib = 'anim@heists@prison_heistunfinished_biztarget_idle', anim = 'target_idle' } },
+        { label = "S'asseoir (Par terre)", type = 'animsActionScenario', value = { anim = 'WORLD_HUMAN_PICNIC' } },
+        { label = 'Attendre', type = 'animsActionScenario', value = { anim = 'world_human_leaning' } },
+        { label = 'Nettoyer quelque chose', type = 'animsActionScenario', value = { anim = 'world_human_maid_clean' } },
+        { label = 'Position de Fouille', type = 'animsAction', value = { lib = 'mini@prostitutes@sexlow_veh', anim = 'low_car_bj_to_prop_female' } },
+        { label = "Se gratter les c**", type = 'animsAction', value = { lib = 'mp_player_int_uppergrab_crotch', anim = 'mp_player_int_grab_crotch' } },
+        { label = "Prendre un selfie", type = 'animsActionScenario', value = { anim = 'world_human_tourist_mobile' } },
+      }
+    },
+    function (data, menu)
+      playAnimation(data.current.type, data.current.value)
+    end,
+    function(data, menu)
+      menu.close()
+    end
+  )
+end
+
+function playAnimation (type, animation)
+  if type == 'animsAction' then
+    animsAction(animation)
+  elseif type == 'animsActionScenario' then
+    animsActionScenario(animation)
   end
 end
 
+function animsAction (animation)
+  RequestAnimDict( animation.lib )
 
-Citizen.CreateThread(function()
+  while not HasAnimDictLoaded( animation.lib ) do
+    Citizen.Wait(0)
+  end
+
+  if HasAnimDictLoaded( animation.lib ) then
+    TaskPlayAnim( GetPlayerPed(-1), animation.lib , animation.anim ,8.0, -8.0, -1, 0, 0, false, false, false )
+  end
+end
+
+function animsActionScenario (animation)
+  local ped = GetPlayerPed(-1);
+
+  if ped then
+    local pos = GetEntityCoords(ped);
+    local head = GetEntityHeading(ped);
+    --TaskStartScenarioAtPosition(ped, animObj.anim, pos['x'], pos['y'], pos['z'] - 1, head, -1, false, false);
+    TaskStartScenarioInPlace(ped, animation.anim, 0, false)
+    if IsControlJustPressed(1,188) then
+    end
+
+  end
+end
+
+function animsWithModelsSpawn (object)
+  local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
+
+  RequestModel(object.object)
+  while not HasModelLoaded(object.object) do
+    Wait(1)
+  end
+
+  local object = CreateObject(object.object, x, y+2, z, true, true, true)
+  -- local vX, vY, vZ = table.unpack(GetEntityCoords(object,  true))
+
+  -- AttachEntityToEntity(object, PlayerId(), GetPedBoneIndex(PlayerId()), vX,  vY,  vZ, -90.0, 0, -90.0, true, true, true, false, 0, true)
+  PlaceObjectOnGroundProperly(object)
+end
+
+
+Citizen.CreateThread(function ()
   while true do
 
     Wait(0)
