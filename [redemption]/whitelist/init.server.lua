@@ -1,21 +1,21 @@
-WhiteList = {}
+-- WhiteList = {}
 
-function loadWhiteList ()
-  local results = MySQL.Sync.fetchAll('SELECT * FROM whitelist')
+-- function loadWhiteList ()
+--   local results = MySQL.Sync.fetchAll('SELECT * FROM whitelist')
 
-  for i=1, #results, 1 do
-    table.insert(WhiteList, tostring(results[i].identifier))
-    print ("[WHITELISTED] : " ..results[i].identifier)
-  end
-end
+--   for i=1, #results, 1 do
+--     table.insert(WhiteList, tostring(results[i].identifier))
+--     print ("[WHITELISTED] : " ..results[i].identifier)
+--   end
+-- end
 
-TriggerEvent('es:addGroupCommand', 'loadWhitelist', 'admin', function(source, args, user)
-  loadWhiteList()
-end, { help = 'Recharger la Whitelist'})
+-- TriggerEvent('es:addGroupCommand', 'loadWhitelist', 'admin', function(source, args, user)
+--   loadWhiteList()
+-- end, { help = 'Recharger la Whitelist'})
 
-AddEventHandler('onMySQLReady', function ()
-  loadWhiteList()
-end)
+-- AddEventHandler('onMySQLReady', function ()
+--   loadWhiteList()
+-- end)
 
 AddEventHandler('playerConnecting', function (playerName, setKickReason)
   if (WhiteList == {}) then
@@ -30,14 +30,21 @@ AddEventHandler('playerConnecting', function (playerName, setKickReason)
     CancelEvent()
   end
 
-  for i=1, #WhiteList, 1 do
-    if (tostring(WhiteList[i]) == tostring(steamID)) then
-      whitelisted = true
-    end
-  end
+  local result = MySQL.Sync.fetchAll('SELECT * FROM whitelist WHERE identifier = @identifier', { ['@identifier'] = steamID })[1]
 
-  if whitelisted == false then
+  -- for i=1, #WhiteList, 1 do
+  --   if (tostring(WhiteList[i]) == tostring(steamID)) then
+  --     whitelisted = true
+  --   end
+  -- end
+
+  if result == nil then
     setKickReason(_U('not_whitelisted'))
     CancelEvent()
   end
+
+  -- if whitelisted == false then
+  --   setKickReason(_U('not_whitelisted'))
+  --   CancelEvent()
+  -- end
 end)
