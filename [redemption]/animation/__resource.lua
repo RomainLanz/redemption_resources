@@ -5,5 +5,7 @@
 --
 
 client_scripts {
-  'init.client.lua',
+  'dict.lua',
+  'functions.lua',
+  'init.lua',
 }

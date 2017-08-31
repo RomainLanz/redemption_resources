@@ -1,11 +1,11 @@
 @font-face {
-  font-family: bankgothic;
-  src: url('../fonts/bankgothic.ttf');
+  font-family: markmywords;
+  src: url('../fonts/mark_my_words.ttf');
 }
 
 @font-face {
-  font-family: pcdown;
-  src: url('../fonts/pdown.ttf');
+  font-family: worksans;
+  src: url('../fonts/WorkSans.ttf');
 }
 
 #cursor {
@@ -15,7 +15,7 @@
 }
 
 #controls {
-  font-family   : pcdown;
+  font-family   : worksans;
   font-size     : 3em;
   color         : #FFF;
   position      : absolute;
@@ -36,7 +36,7 @@
 
 .dialog {
 
-  font-family     : bankgothic;  
+  font-family     : markmywords;  
   background-color: #fff;
   color           : #fff;
   box-shadow      : 0px 0px 50px 0px #000;
@@ -54,9 +54,10 @@
 }
 
 .dialog .head {
-  background-color: #506be6;
+  background: linear-gradient(135deg, rgba(169,3,41,0.8) 0%,rgba(143,2,34,0.8) 44%,rgba(109,0,25,0.8) 100%);
   text-align      : center;
   height          : 40px;
+  line-height     : 40px
 }
 
 .dialog .head span:before {

@@ -73,9 +73,9 @@ end
 
 function playAnimation (animationId)
   if animationId == 'no' then
-    TriggerEvent('No')
+    TriggerEvent('red:playAnimation', animationId)
   elseif animationId == 'wave' then
-    TriggerEvent('Wave')
+    TriggerEvent('red:playWave')
   elseif animationId == 'yes' then
     TriggerEvent('Yes')
   elseif animationId == 'plane' then
