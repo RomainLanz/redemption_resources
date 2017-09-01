@@ -85,19 +85,20 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
-	for k,v in pairs(Stores)do
-		local ve = v.position
+-- Citizen.CreateThread(function()
+-- 	for k,v in pairs(Stores)do
+-- 		local ve = v.position
 
-		local blip = AddBlipForCoord(ve.x, ve.y, ve.z)
-		SetBlipSprite(blip, 156)
-		SetBlipScale(blip, 0.8)
-		SetBlipAsShortRange(blip, true)
-		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString(_U('shop_robbery'))
-		EndTextCommandSetBlipName(blip)
-	end
-end)
+-- 		local blip = AddBlipForCoord(ve.x, ve.y, ve.z)
+-- 		SetBlipSprite(blip, 156)
+-- 		SetBlipScale(blip, 0.8)
+-- 		SetBlipAsShortRange(blip, true)
+-- 		BeginTextCommandSetBlipName("STRING")
+-- 		AddTextComponentString(_U('shop_robbery'))
+-- 		EndTextCommandSetBlipName(blip)
+-- 	end
+-- end)
+
 incircle = false
 
 Citizen.CreateThread(function()
