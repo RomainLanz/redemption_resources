@@ -4,7 +4,7 @@ AddEventHandler('onClientMapStart', function ()
 end)
 
 AddEventHandler('playerSpawned', function (xPlayer)
-  NetworkSetTalkerProximity(30.0)
+  NetworkSetTalkerProximity(25.0)
 
   --load unloaded ipl's
   LoadMpDlcMaps()
