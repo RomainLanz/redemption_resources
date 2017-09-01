@@ -9,5 +9,6 @@ server_scripts {
   '@es_extended/locale.lua',
   'Config.lua',
   'locales/fr.lua',
-  'init.server.lua',
+  'server/main.lua',
+  'server/commands.lua',
 }
