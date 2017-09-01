@@ -9,6 +9,8 @@ end, function (source, args, user)
 end, { help = 'Recharger la Whitelist'})
 
 TriggerEvent('es:addGroupCommand', 'whitelist:add', 'admin', function (source, args, user)
+  local steamID = 'steam:' .. args[2]
+
   MySQL.Sync.execute('INSERT INTO whitelist (identifier) VALUES (@identifier)', { ['@identifier'] = tostring(args[2]) })
   print('SteamID ajouté !')
   loadWhiteList()
