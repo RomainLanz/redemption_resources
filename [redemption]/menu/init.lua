@@ -172,7 +172,7 @@ function showAnimationOtherMenu ()
         { label = 'Attendre', type = 'animsActionScenario', value = { anim = 'world_human_leaning' } },
         { label = 'Nettoyer quelque chose', type = 'animsActionScenario', value = { anim = 'world_human_maid_clean' } },
         { label = 'Position de Fouille', type = 'animsAction', value = { lib = 'mini@prostitutes@sexlow_veh', anim = 'low_car_bj_to_prop_female' } },
-        { label = "Se gratter les c**", type = 'animsAction', value = { lib = 'mp_player_int_uppergrab_crotch', anim = 'mp_player_int_grab_crotch' } },
+        { label = "Se gratter les parties intimes", type = 'animsAction', value = { lib = 'mp_player_int_uppergrab_crotch', anim = 'mp_player_int_grab_crotch' } },
         { label = "Prendre un selfie", type = 'animsActionScenario', value = { anim = 'world_human_tourist_mobile' } },
       }
     },
