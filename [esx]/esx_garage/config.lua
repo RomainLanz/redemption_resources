@@ -14,6 +14,73 @@ Config.Zones = {}
 
 Config.Garages = {
 
+	NorthDrive = {
+
+		IsClosed = true,
+
+		ExteriorEntryPoint = {
+			Pos = { x= -355.63, y = 6067.56, z = 30.49790 },
+		},
+
+		ExteriorSpawnPoint = {
+			Pos     = {x = -361.9, y = 6072.40, z = 30.49790 },
+			Heading = 180.0
+		},
+
+		InteriorSpawnPoint = {
+			Pos     = {x = 228.930, y = -1000.698, z = -100.000},
+			Heading = 0.0
+		},
+
+		InteriorExitPoint = {
+			Pos = {x = 224.613, y = -1004.769, z = -100.000},
+		},
+
+		Parkings = {
+			{
+				Pos     = {x = 224.500, y = -998.695, z = -100.000},
+				Heading = 225.0
+			},
+		  {
+				Pos     = {x = 224.500, y = -994.630, z = -100.000},
+				Heading = 225.0
+			},
+		  {
+				Pos     = {x = 224.500, y = -990.255, z = -100.000},
+				Heading = 225.0
+			},
+		  {
+				Pos     = {x = 224.500, y = -986.628, z = -100.000},
+				Heading = 225.0
+			},
+		  {
+				Pos     = {x = 224.500, y = -982.496, z = -100.000},
+				Heading = 225.0
+			},
+		  {
+				Pos     = {x = 232.500, y = -982.496, z = -100.000},
+				Heading = 135.0
+			},
+		  {
+				Pos     = {x = 232.500, y = -986.628, z = -100.000},
+				Heading = 135.0
+			},
+		  {
+				Pos     = {x = 232.500, y = -990.255, z = -100.000},
+				Heading = 135.0
+			},
+		  {
+				Pos     = {x = 232.500, y = -994.630, z = -100.000},
+				Heading = 135.0
+			},
+		  {
+				Pos     = {x = 232.500, y = -998.695, z = -100.000},
+				Heading = 135.0
+			},
+		}
+
+	},
+
 	MiltonDrive = {
 
 		IsClosed = true,
