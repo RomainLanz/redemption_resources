@@ -61,6 +61,7 @@ start esx_jobs
 start esx_vehicleshop
 start esx_barbershop
 start esx_clotheshop
+start esx_weashop
 start esx_shops
 start esx_atm
 start esx_property
@@ -75,6 +76,8 @@ start esx_drugs
 start redemption
 start menu
 start sexyspeedometer
+start loadscreen
+start coords
 start whitelist
 
 # Restart Buggy Resources
