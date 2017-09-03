@@ -22,6 +22,33 @@ AddEventHandler('onClientMapStart', function()
 
 end)
 
+function OpenBuyLicenseMenu (zone)
+  ESX.UI.Menu.CloseAll()
+
+  ESX.UI.Menu.Open(
+    'default', GetCurrentResourceName(), 'shop_license',
+    {
+      title = "Acheter une license de port d'arme ?",
+      align = 'left',
+      elements = {
+        { label = 'Oui ($5000)', value = 'yes' },
+        { label = 'Non', value = 'no' },
+      },
+    },
+    function (data, menu)        
+      if data.current.value == 'yes' then
+        TriggerEvent('esx:showNotification', 'You said yes!')
+        TriggerServerEvent('red:buyLicense', 'weapon', 5000)
+      end
+
+      menu.close()
+    end,
+    function (data, menu)
+      menu.close()
+    end
+  )
+end
+
 function OpenShopMenu(zone)
 
 	local elements = {}
@@ -46,6 +73,7 @@ function OpenShopMenu(zone)
 		'default', GetCurrentResourceName(), 'shop',
 		{
 			title  = _U('shop'),
+      align  = 'left',
 			elements = elements
 		},
 		function(data, menu)				
@@ -153,7 +181,21 @@ Citizen.CreateThread(function()
       if IsControlJustReleased(0, 38) then        
         
         if CurrentAction == 'shop_menu' then
-          OpenShopMenu(CurrentActionData.zone)
+          ESX.TriggerServerCallback('red:getPlayerLicenses', function (licenses)
+            local weaponLicense = false
+
+            for i = 1, #licenses, 1 do
+              if (licenses[i].name == 'weapon') then
+                weaponLicense = true
+              end
+            end
+
+            if weaponLicense and Config.Zones[zoneCurrentActionData.zone].legal == 1 then
+              OpenShopMenu(CurrentActionData.zone)
+            else
+              OpenBuyLicenseMenu()
+            end
+          end)
         end
         
         CurrentAction = nil         
