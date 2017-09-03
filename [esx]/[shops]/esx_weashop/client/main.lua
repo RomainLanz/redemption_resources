@@ -37,7 +37,6 @@ function OpenBuyLicenseMenu (zone)
     },
     function (data, menu)        
       if data.current.value == 'yes' then
-        TriggerEvent('esx:showNotification', 'You said yes!')
         TriggerServerEvent('red:buyLicense', 'weapon', 5000)
       end
 
@@ -190,7 +189,7 @@ Citizen.CreateThread(function()
               end
             end
 
-            if weaponLicense and Config.Zones[zoneCurrentActionData.zone].legal == 1 then
+            if weaponLicense and Config.Zones[CurrentActionData.zone].legal == 1 then
               OpenShopMenu(CurrentActionData.zone)
             else
               OpenBuyLicenseMenu()
