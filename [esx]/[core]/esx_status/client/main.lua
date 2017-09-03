@@ -1,83 +1,146 @@
 local Status = {}
-local loaded = false
 
-RegisterNetEvent('esx_status:update')
-AddEventHandler('esx_status:update', function(status)
-	
-	Status = status
+function GetStatusData(minimal)
 
-	SendNUIMessage({
-		update = true,
-		status = Status
-	})
+  local status = {}
 
-	if not loaded then
-		TriggerEvent('esx_status:loaded')
-		loaded = true
-	end
+  for i=1, #Status, 1 do
+
+    if minimal then
+
+      table.insert(status, {
+        name = Status[i].name,
+        val  = Status[i].val,
+      })
+
+    else
+
+      table.insert(status, {
+        name    = Status[i].name,
+        val     = Status[i].val,
+        color   = Status[i].color,
+        visible = Status[i].visible(Status[i]),
+        max     = Status[i].max,
+      })
+
+    end
+
+  end
+
+  return status
+
+end
+
+AddEventHandler('esx_status:registerStatus', function(name, default, color, visible, tickCallback)
+  local s = CreateStatus(name, default, color, visible, tickCallback)
+  table.insert(Status, s)
+end)
+
+RegisterNetEvent('esx_status:load')
+AddEventHandler('esx_status:load', function(status)
+
+  for i=1, #Status, 1 do
+    for j=1, #status, 1 do
+      if Status[i].name == status[j].name then
+        Status[i].set(status[j].val)
+      end
+    end
+  end
+
+  Citizen.CreateThread(function()
+    while true do
+
+      for i=1, #Status, 1 do
+        Status[i].onTick()
+      end
+
+      SendNUIMessage({
+        update = true,
+        status = GetStatusData()
+      })
+
+      Citizen.Wait(Config.TickTime)
+
+    end
+  end)
+
+end)
+
+RegisterNetEvent('esx_status:set')
+AddEventHandler('esx_status:set', function(name, val)
+  
+  for i=1, #Status, 1 do
+    if Status[i].name == name then
+      Status[i].set(val)
+      break
+    end
+  end
+
+  SendNUIMessage({
+    update = true,
+    status = GetStatusData()
+  })
+
+  TriggerServerEvent('esx_status:update', GetStatusData(true))
+
+end)
+
+RegisterNetEvent('esx_status:add')
+AddEventHandler('esx_status:add', function(name, val)
+  
+  for i=1, #Status, 1 do
+    if Status[i].name == name then
+      Status[i].add(val)
+      break
+    end
+  end
+
+  SendNUIMessage({
+    update = true,
+    status = GetStatusData()
+  })
+
+  TriggerServerEvent('esx_status:update', GetStatusData(true))
+
+end)
+
+RegisterNetEvent('esx_status:remove')
+AddEventHandler('esx_status:remove', function(name, val)
+  
+  for i=1, #Status, 1 do
+    if Status[i].name == name then
+      Status[i].remove(val)
+      break
+    end
+  end
+
+  SendNUIMessage({
+    update = true,
+    status = GetStatusData()
+  })
+
+  TriggerServerEvent('esx_status:update', GetStatusData(true))
 
 end)
 
 AddEventHandler('esx_status:getStatus', function(name, cb)
-	
-	for i=1, #Status, 1 do
-		if Status[i].name == name then
-			cb(Status[i])
-			return
-		end
-	end
+  
+  for i=1, #Status, 1 do
+    if Status[i].name == name then
+      cb(Status[i])
+      return
+    end
+  end
 
 end)
 
 AddEventHandler('esx_status:setDisplay', function(val)
 
-	SendNUIMessage({
-		setDisplay = true,
-		display    = val
-	})
+  SendNUIMessage({
+    setDisplay = true,
+    display    = val
+  })
 
-end)
-
--- Calculate status
-Citizen.CreateThread(function()
-  while true do
-
-  	for i=1, #Status, 1 do
-
-  		if Status[i].clientAction.add ~= nil then
-
-  			local val = math.floor(Status[i].clientAction.add / (Config.TickTime / Config.ClientTickTime))
-
-				if Status[i].val + val > Config.StatusMax then
-					Status[i].val = StatusMax
-				else
-					Status[i].val = Status[i].val + val
-				end
-
-  		end
-
-  		if Status[i].clientAction.remove ~= nil then
-				
-  			local val = math.floor(Status[i].clientAction.remove / (Config.TickTime / Config.ClientTickTime))
-
-				if Status[i].val - val < 0 then
-					Status[i].val = 0
-				else
-					Status[i].val = Status[i].val - val
-				end
-
-  		end
-
-  	end
-
-		SendNUIMessage({
-			update = true,
-			status = Status
-		})
-
-    Citizen.Wait(Config.ClientqTickTime)
-
-  end
 end)
 
 -- Pause menu disable hud display
@@ -88,10 +151,23 @@ Citizen.CreateThread(function()
     Citizen.Wait(1)
     if IsPauseMenuActive() and not isPaused then
       isPaused = true
-     	TriggerEvent('esx_status:setDisplay', 0.0)
+      TriggerEvent('esx_status:setDisplay', 0.0)
     elseif not IsPauseMenuActive() and isPaused then
       isPaused = false 
-     	TriggerEvent('esx_status:setDisplay', 0.5)
+      TriggerEvent('esx_status:setDisplay', 0.5)
     end
+  end
+end)
+
+-- Loaded event
+Citizen.CreateThread(function()
+  TriggerEvent('esx_status:loaded')
+end)
+
+-- Update server
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(Config.UpdateInterval)
+    TriggerServerEvent('esx_status:update', GetStatusData(true))
   end
 end)
