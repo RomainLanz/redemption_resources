@@ -10,7 +10,7 @@ function loadWhiteList ()
   print('Whitelist rechargée !')
 end
 
-AddEventHandler('onMySQLReady', function ()
+MySQL.ready(function ()
   loadWhiteList()
 end)
 
