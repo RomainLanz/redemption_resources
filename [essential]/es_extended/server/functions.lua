@@ -5,7 +5,7 @@ for i = 65,  90 do table.insert(Charset, string.char(i)) end
 for i = 97, 122 do table.insert(Charset, string.char(i)) end
 
 ESX.Trace = function(str)
- 	if Config.EnableDebug then
+	if Config.EnableDebug then
 		print('ESX> ' .. str)
 	end
 end
