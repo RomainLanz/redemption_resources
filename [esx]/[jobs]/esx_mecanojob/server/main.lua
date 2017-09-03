@@ -12,22 +12,8 @@ if Config.MaxInService ~= -1 then
 	TriggerEvent('esx_service:activateService', 'mecano', Config.MaxInService)
 end
 
-TriggerEvent('esx_phone:registerCallback', function(source, phoneNumber, message, anon)
-	local _source = source
-	local xPlayer  = ESX.GetPlayerFromId(_source)
-	local xPlayers = ESX.GetPlayers()
-	
-	if phoneNumber == 'mecano' then
-		for i=1, #xPlayers, 1 do
-			
-			local xPlayer2 = ESX.GetPlayerFromId(xPlayers[i])
+TriggerEvent('esx_phone:registerNumber', 'mecano', 'Client mecano', true, true)
 
-			if xPlayer2.job.name == 'mecano' then
-				TriggerClientEvent('esx_phone:onMessage', xPlayer2.source, xPlayer.get('phoneNumber'), message, xPlayer.get('coords'), anon, 'Appel Mécano')
-			end
-		end
-	end
-end)
 -------------- Récupération bouteille de gaz -------------
 ---- Sqlut je teste ------
 local function Harvest(source)
@@ -288,5 +274,84 @@ ESX.RegisterUsableItem('carokit', function(source)
 
 	TriggerClientEvent('esx_mecanojob:onCarokit', _source)
     TriggerClientEvent('esx:showNotification', _source, 'Vous avez utilisé un ~b~Kit de carosserie')
+
+end)
+
+----------------------------------
+---- Ajout Gestion Stock Boss ----
+----------------------------------
+
+RegisterServerEvent('esx_mecanojob:getStockItem')
+AddEventHandler('esx_mecanojob:getStockItem', function(itemName, count)
+
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_mecano', function(inventory)
+
+		local item = inventory.getItem(itemName)
+
+		if item.count >= count then
+			inventory.removeItem(itemName, count)
+			xPlayer.addInventoryItem(itemName, count)
+		else
+			TriggerClientEvent('esx:showNotification', xPlayer.source, 'Quantité invalide')
+		end
+
+		TriggerClientEvent('esx:showNotification', xPlayer.source, 'Vous avez retiré x' .. count .. ' ' .. item.label)
+
+	end)
+
+end)
+
+ESX.RegisterServerCallback('esx_mecanojob:getStockItems', function(source, cb)
+
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_mecano', function(inventory)
+		cb(inventory.items)
+	end)
+
+end)
+
+-------------
+-- AJOUT 2 --
+-------------
+
+RegisterServerEvent('esx_mecanojob:putStockItems')
+AddEventHandler('esx_mecanojob:putStockItems', function(itemName, count)
+
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_mecano', function(inventory)
+
+		local item = inventory.getItem(itemName)
+
+		if item.count >= 0 then
+			xPlayer.removeInventoryItem(itemName, count)
+			inventory.addItem(itemName, count)
+		else
+			TriggerClientEvent('esx:showNotification', xPlayer.source, 'Quantité invalide')
+		end
+
+		TriggerClientEvent('esx:showNotification', xPlayer.source, 'Vous avez ajouté x' .. count .. ' ' .. item.label)
+
+	end)
+
+end)
+
+--ESX.RegisterServerCallback('esx_mecanojob:putStockItems', function(source, cb)
+
+--	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_policestock', function(inventory)
+--		cb(inventory.items)
+--	end)
+
+--end)
+
+ESX.RegisterServerCallback('esx_mecanojob:getPlayerInventory', function(source, cb)
+
+	local xPlayer    = ESX.GetPlayerFromId(source)
+	local items      = xPlayer.inventory
+
+	cb({
+		items      = items
+	})
 
 end)

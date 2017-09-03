@@ -6,6 +6,7 @@
 
 files {
   'client/loadscreen.ogg',
+  'client/loadscreen.webm',
   'client/loadscreen.html',
 }
 

@@ -6,6 +6,8 @@ if Config.MaxInService ~= -1 then
 	TriggerEvent('esx_service:activateService', 'police', Config.MaxInService)
 end
 
+TriggerEvent('esx_phone:registerNumber', 'police', _('alert_police'), true, true)
+
 RegisterServerEvent('esx_policejob:giveWeapon')
 AddEventHandler('esx_policejob:giveWeapon', function(weapon, ammo)
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -60,6 +62,50 @@ end)
 RegisterServerEvent('esx_policejob:putInVehicle')
 AddEventHandler('esx_policejob:putInVehicle', function(target)
 	TriggerClientEvent('esx_policejob:putInVehicle', target)
+end)
+
+RegisterServerEvent('esx_policejob:getStockItem')
+AddEventHandler('esx_policejob:getStockItem', function(itemName, count)
+
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_policestock', function(inventory)
+
+		local item = inventory.getItem(itemName)
+
+		if item.count >= count then
+			inventory.removeItem(itemName, count)
+			xPlayer.addInventoryItem(itemName, count)
+		else
+			TriggerClientEvent('esx:showNotification', xPlayer.source, 'Quantité invalide')
+		end
+
+		TriggerClientEvent('esx:showNotification', xPlayer.source, 'Vous avez retiré x' .. count .. ' ' .. item.label)
+
+	end)
+
+end)
+
+RegisterServerEvent('esx_policejob:putStockItems')
+AddEventHandler('esx_policejob:putStockItems', function(itemName, count)
+
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_policestock', function(inventory)
+
+		local item = inventory.getItem(itemName)
+
+		if item.count >= 0 then
+			xPlayer.removeInventoryItem(itemName, count)
+			inventory.addItem(itemName, count)
+		else
+			TriggerClientEvent('esx:showNotification', xPlayer.source, 'Quantité invalide')
+		end
+
+		TriggerClientEvent('esx:showNotification', xPlayer.source, 'Vous avez ajouté x' .. count .. ' ' .. item.label)
+
+	end)
+
 end)
 
 ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, cb, target)
@@ -266,20 +312,21 @@ ESX.RegisterServerCallback('esx_policejob:buy', function(source, cb, amount)
 
 end)
 
-TriggerEvent('esx_phone:registerCallback', function(source, phoneNumber, message, anon)
+ESX.RegisterServerCallback('esx_policejob:getStockItems', function(source, cb)
 
-	local xPlayer  = ESX.GetPlayerFromId(source)
-	local xPlayers = ESX.GetPlayers()
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_policestock', function(inventory)
+		cb(inventory.items)
+	end)
 
-	if phoneNumber == 'police' then
-		 for i=1, #xPlayers, 1 do
-		 	local xPlayer2 = ESX.GetPlayerFromId(xPlayers[i])
-			if xPlayer2.job.name == 'police' then
-				TriggerEvent('esx_phone:getDistpatchRequestId', function(requestId)
-					TriggerClientEvent('esx_phone:onMessage', xPlayer2.source, xPlayer.get('phoneNumber'), message, xPlayer.get('coords'), anon, _('alert_police'), requestId)
-				end)
-			end
-		end
-	end
-	
+end)
+
+ESX.RegisterServerCallback('esx_policejob:getPlayerInventory', function(source, cb)
+
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local items   = xPlayer.inventory
+
+	cb({
+		items = items
+	})
+
 end)

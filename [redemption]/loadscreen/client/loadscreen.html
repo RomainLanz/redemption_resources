@@ -1,22 +1,32 @@
 <html>
   <head>
-    <style type="text/css">
-      .bg iframe {
-        position:absolute;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
+    <style>
+      video {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -100;
+        transform: translateX(-50%) translateY(-50%);
       }
     </style>
   </head>
   <body>
-    <audio autoplay="autoplay" loop="loop">
+
+    <audio id="audio" autoplay="autoplay" loop="loop">
       <source src="loadscreen.ogg" type="audio/ogg">
     </audio>
 
-    <div class="bg">
-      <iframe type="text/html" src="https://www.youtube.com/embed/284udmymcK0?vq=hd1080&rel=0&autoplay=1&controls=0&loop=1&playlist=284udmymcK0&showinfo=0&iv_load_policy=3" frameborder="0" allowfullscreen></iframe>
-    </div>
+    <video id="video" autoplay="autoplay" loop="loop">
+      <source src="loadscreen.webm" type="video/webm">
+    </video>
+
+    <script>
+      document.getElementById('audio').volume = 0.5
+      document.getElementById('video').defaultPlaybackRate = 0.7
+    </script>
   </body>
 </html>

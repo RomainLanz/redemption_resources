@@ -4,6 +4,8 @@ local Vehicles   = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
+TriggerEvent('esx_phone:registerNumber', 'cardealer', 'Client concession', false, false)
+
 function RemoveOwnedVehicle(plate)
 
 	MySQL.Async.fetchAll(
@@ -159,6 +161,50 @@ end)
 RegisterServerEvent('esx_vehicleshop:setVehicleForAllPlayers')
 AddEventHandler('esx_vehicleshop:setVehicleForAllPlayers', function(props, x, y, z, radius)
 	TriggerClientEvent('esx_vehicleshop:setVehicle', -1, props, x, y, z, radius)
+end)
+
+RegisterServerEvent('esx_vehicleshop:getStockItem')
+AddEventHandler('esx_vehicleshop:getStockItem', function(itemName, count)
+
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_cardealer', function(inventory)
+
+		local item = inventory.getItem(itemName)
+
+		if item.count >= count then
+			inventory.removeItem(itemName, count)
+			xPlayer.addInventoryItem(itemName, count)
+		else
+			TriggerClientEvent('esx:showNotification', xPlayer.source, 'Quantité invalide')
+		end
+
+		TriggerClientEvent('esx:showNotification', xPlayer.source, 'Vous avez retiré x' .. count .. ' ' .. item.label)
+
+	end)
+
+end)
+
+RegisterServerEvent('esx_vehicleshop:putStockItems')
+AddEventHandler('esx_vehicleshop:putStockItems', function(itemName, count)
+
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_cardealer', function(inventory)
+
+		local item = inventory.getItem(itemName)
+
+		if item.count >= 0 then
+			xPlayer.removeInventoryItem(itemName, count)
+			inventory.addItem(itemName, count)
+		else
+			TriggerClientEvent('esx:showNotification', xPlayer.source, 'Quantité invalide')
+		end
+
+		TriggerClientEvent('esx:showNotification', xPlayer.source, 'Vous avez ajouté x' .. count .. ' ' .. item.label)
+
+	end)
+
 end)
 
 ESX.RegisterServerCallback('esx_vehicleshop:getCategories', function(source, cb)
@@ -395,19 +441,23 @@ ESX.RegisterServerCallback('esx_vehicleshop:resellVehicle', function(source, cb,
 
 end)
 
-TriggerEvent('esx_phone:registerCallback', function(source, phoneNumber, message, anon)
 
-	local xPlayer  = ESX.GetPlayerFromId(source)
-	local xPlayers = ESX.GetPlayers()
+ESX.RegisterServerCallback('esx_vehicleshop:getStockItems', function(source, cb)
 
-	if phoneNumber == 'cardealer' then
-		for i=1, #xPlayers, 1 do
-            local xPlayer2 = ESX.GetPlayerFromId(xPlayers[i])
-			if xPlayer2.job.name == 'cardealer' then
-				TriggerClientEvent('esx_phone:onMessage', xPlayer2.source, xPlayer.get('phoneNumber'), message, xPlayer.get('coords'), anon, 'player')
-			end
-		end
-	end
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_cardealer', function(inventory)
+		cb(inventory.items)
+	end)
+
+end)
+
+ESX.RegisterServerCallback('esx_vehicleshop:getPlayerInventory', function(source, cb)
+
+	local xPlayer    = ESX.GetPlayerFromId(source)
+	local items      = xPlayer.inventory
+
+	cb({
+		items      = items
+	})
 
 end)
 
