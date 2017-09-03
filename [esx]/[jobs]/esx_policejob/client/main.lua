@@ -53,7 +53,7 @@ function OpenCloakroomMenu()
 		'default', GetCurrentResourceName(), 'cloakroom',
 		{
 			title    = _U('cloakroom'),
-			align    = 'left',
+			align    = 'top-left',
 			elements = {
 				{label = _U('citizen_wear'), value = 'citizen_wear'},
 				{label = _U('police_wear'), value = 'police_wear'},
@@ -121,7 +121,7 @@ function OpenArmoryMenu(station)
 			'default', GetCurrentResourceName(), 'armory',
 			{
 				title    = _U('armory'),
-				align    = 'left',
+				align    = 'top-left',
 				elements = elements,
 			},
 			function(data, menu)
@@ -136,7 +136,15 @@ function OpenArmoryMenu(station)
 
 				if data.current.value == 'buy_weapons' then
 					OpenBuyWeaponsMenu(station)
-				end		
+				end	
+
+				if data.current.value == 'put_stock' then
+	        OpenPutStocksMenu()
+        end	
+
+        if data.current.value == 'get_stock' then
+	        OpenGetStocksMenu()
+        end
 
 			end,
 			function(data, menu)
@@ -164,7 +172,7 @@ function OpenArmoryMenu(station)
 			'default', GetCurrentResourceName(), 'armory',
 			{
 				title    = _U('armory'),
-				align    = 'left',
+				align    = 'top-left',
 				elements = elements,
 			},
 			function(data, menu)
@@ -202,7 +210,7 @@ function OpenVehicleSpawnerMenu(station, partNum)
 		'default', GetCurrentResourceName(), 'vehicle_spawner',
 		{
 			title    = _U('vehicle_menu'),
-			align    = 'left',
+			align    = 'top-left',
 			elements = elements,
 		},
 		function(data, menu)
@@ -277,7 +285,7 @@ function OpenPoliceActionsMenu()
 		'default', GetCurrentResourceName(), 'police_actions',
 		{
 			title    = 'Police',
-			align    = 'left',
+			align    = 'top-left',
 			elements = {
 		  	{label = _U('citizen_interaction'), value = 'citizen_interaction'},
 		  	{label = _U('vehicle_interaction'), value = 'vehicle_interaction'},
@@ -292,7 +300,7 @@ function OpenPoliceActionsMenu()
 					'default', GetCurrentResourceName(), 'citizen_interaction',
 					{
 						title    = _U('citizen_interaction'),
-						align    = 'left',
+						align    = 'top-left',
 						elements = {
 							{label = _U('id_card'),     	value = 'identity_card'},
 							{label = _U('search'),      	value = 'body_search'},
@@ -345,7 +353,7 @@ function OpenPoliceActionsMenu()
 					'default', GetCurrentResourceName(), 'vehicle_interaction',
 					{
 						title    = _U('vehicle_interaction'),
-						align    = 'left',
+						align    = 'top-left',
 						elements = {
 					  	{label = _U('vehicle_info'), value = 'vehicle_infos'},
 					  	{label = _U('pick_lock'),  	 value = 'hijack_vehicle'},
@@ -415,7 +423,7 @@ function OpenPoliceActionsMenu()
 					'default', GetCurrentResourceName(), 'citizen_interaction',
 					{
 						title    = _U('traffic_interaction'),
-						align    = 'left',
+						align    = 'top-left',
 						elements = {
 					    {label = _U('cone'),     value = 'prop_roadcone02a'},
 					    {label = _U('barrier'), value = 'prop_barrier_work06a'},
@@ -499,7 +507,7 @@ function OpenIdentityCardMenu(player)
 			'default', GetCurrentResourceName(), 'citizen_interaction',
 			{
 				title    = _U('citizen_interaction'),
-				align    = 'left',
+				align    = 'top-left',
 				elements = elements,
 			},
 			function(data, menu)
@@ -564,7 +572,7 @@ function OpenBodySearchMenu(player)
 			'default', GetCurrentResourceName(), 'body_search',
 			{
 				title    = _U('search'),
-				align    = 'left',
+				align    = 'top-left',
 				elements = elements,
 			},
 			function(data, menu)
@@ -597,7 +605,7 @@ function OpenFineMenu(player)
 		'default', GetCurrentResourceName(), 'fine',
 		{
 			title    = _U('fine'),
-			align    = 'left',
+			align    = 'top-left',
 			elements = {
 		  	{label = _U('traffic_offense'),   value = 0},
 		  	{label = _U('minor_offense'),     value = 1},
@@ -636,7 +644,7 @@ function OpenFineCategoryMenu(player, category)
 			'default', GetCurrentResourceName(), 'fine_category',
 			{
 				title    = _U('fine'),
-				align    = 'left',
+				align    = 'top-left',
 				elements = elements,
 			},
 			function(data, menu)
@@ -684,7 +692,7 @@ function OpenVehicleInfosMenu(vehicleData)
 			'default', GetCurrentResourceName(), 'vehicle_infos',
 			{
 				title    = _U('vehicle_info'),
-				align    = 'left',
+				align    = 'top-left',
 				elements = elements,
 			},
 			nil,
@@ -713,7 +721,7 @@ function OpenGetWeaponMenu()
 			'default', GetCurrentResourceName(), 'armory_get_weapon',
 			{
 				title    = _U('get_weapon_menu'),
-				align    = 'left',
+				align    = 'top-left',
 				elements = elements,
 			},
 			function(data, menu)
@@ -755,7 +763,7 @@ function OpenPutWeaponMenu()
 		'default', GetCurrentResourceName(), 'armory_put_weapon',
 		{
 			title    = _U('put_weapon_menu'),
-			align    = 'left',
+			align    = 'top-left',
 			elements = elements,
 		},
 		function(data, menu)
@@ -800,7 +808,7 @@ function OpenBuyWeaponsMenu(station)
 			'default', GetCurrentResourceName(), 'armory_buy_weapons',
 			{
 				title    = _U('buy_weapon_menu'),
-				align    = 'left',
+				align    = 'top-left',
 				elements = elements,
 			},
 			function(data, menu)
@@ -827,85 +835,121 @@ function OpenBuyWeaponsMenu(station)
 
 end
 
-function OpenBossActionsMenu()
+function OpenGetStocksMenu()
 
-	ESX.UI.Menu.CloseAll()
+	ESX.TriggerServerCallback('esx_policejob:getStockItems', function(items)
 
-	ESX.UI.Menu.Open(
-		'default', GetCurrentResourceName(), 'realestateagent',
-		{
-			title    = PlayerData.job.grade_label,
-			align 	 = 'left',
-			elements = {
-				{label = _U('take_company_money'), value = 'withdraw_society_money'},
-				{label = _U('deposit_money'),         value = 'deposit_money'},
-			}
-		},
-		function(data, menu)
+		print(json.encode(items))
 
-			if data.current.value == 'withdraw_society_money' then
+		local elements = {}
+
+		for i=1, #items, 1 do
+			table.insert(elements, {label = 'x' .. items[i].count .. ' ' .. items[i].label, value = items[i].name})
+		end
+
+	  ESX.UI.Menu.Open(
+	    'default', GetCurrentResourceName(), 'stocks_menu',
+	    {
+	      title    = 'Police Stock',
+	      elements = elements
+	    },
+	    function(data, menu)
+
+	    	local itemName = data.current.value
 
 				ESX.UI.Menu.Open(
-					'dialog', GetCurrentResourceName(), 'withdraw_society_money_amount',
+					'dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count',
 					{
-						title = _U('amount_of_withdrawal')
+						title = 'Quantité'
 					},
-					function(data, menu)
+					function(data2, menu2)
 
-						local amount = tonumber(data.value)
+						local count = tonumber(data2.value)
 
-						if amount == nil then
-							ESX.ShowNotification(_U('invalid_amount'))
+						if count == nil then
+							ESX.ShowNotification('Quantité invalide')
 						else
-							menu.close()
-							TriggerServerEvent('esx_society:withdrawMoney', 'police', amount)
+							menu2.close()
+				    	menu.close()
+				    	OpenGetStocksMenu()
+
+							TriggerServerEvent('esx_policejob:getStockItem', itemName, count)
 						end
 
 					end,
-					function(data, menu)
-						menu.close()
+					function(data2, menu2)
+						menu2.close()
 					end
 				)
 
+	    end,
+	    function(data, menu)
+	    	menu.close()
+	    end
+	  )
+
+	end)
+
+end
+
+function OpenPutStocksMenu()
+
+	ESX.TriggerServerCallback('esx_policejob:getPlayerInventory', function(inventory)
+
+		local elements = {}
+
+		for i=1, #inventory.items, 1 do
+
+			local item = inventory.items[i]
+
+			if item.count > 0 then
+				table.insert(elements, {label = item.label .. ' x' .. item.count, type = 'item_standard', value = item.name})
 			end
-
-			if data.current.value == 'deposit_money' then
-
-				ESX.UI.Menu.Open(
-					'dialog', GetCurrentResourceName(), 'deposit_money_amount',
-					{
-						title = _U('amount_of_deposit')
-					},
-					function(data, menu)
-
-						local amount = tonumber(data.value)
-
-						if amount == nil then
-							ESX.ShowNotification(_U('invalid_amount'))
-						else
-							menu.close()
-							TriggerServerEvent('esx_society:depositMoney', 'police', amount)
-						end
-
-					end,
-					function(data, menu)
-						menu.close()
-					end
-				)
-
-			end
-
-		end,
-		function(data, menu)
-
-			menu.close()
-
-			CurrentAction     = 'menu_boss_actions'
-			CurrentActionMsg  = _U('open_bossmenu')
-			CurrentActionData = {}
 
 		end
-	)
+
+	  ESX.UI.Menu.Open(
+	    'default', GetCurrentResourceName(), 'stocks_menu',
+	    {
+	      title    = 'Inventaire',
+	      elements = elements
+	    },
+	    function(data, menu)
+
+	    	local itemName = data.current.value
+
+				ESX.UI.Menu.Open(
+					'dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count',
+					{
+						title = 'Quantité'
+					},
+					function(data2, menu2)
+
+						local count = tonumber(data2.value)
+
+						if count == nil then
+							ESX.ShowNotification('Quantité invalide')
+						else
+							menu2.close()
+				    	menu.close()
+				    	OpenPutStocksMenu()
+
+							TriggerServerEvent('esx_policejob:putStockItems', itemName, count)
+						end
+
+					end,
+					function(data2, menu2)
+						menu2.close()
+					end
+				)
+
+	    end,
+	    function(data, menu)
+	    	menu.close()
+	    end
+	  )
+
+	end)
 
 end
 
@@ -957,7 +1001,7 @@ AddEventHandler('esx_policejob:hasEnteredMarker', function(station, part, partNu
 		local helicopters = Config.PoliceStations[station].Helicopters
 
 		if not IsAnyVehicleNearPoint(helicopters[partNum].SpawnPoint.x, helicopters[partNum].SpawnPoint.y, helicopters[partNum].SpawnPoint.z,  3.0) then
-		
+
 			ESX.Game.SpawnVehicle('polmav', {
 				x = helicopters[partNum].SpawnPoint.x, 
 				y = helicopters[partNum].SpawnPoint.y, 
@@ -1421,7 +1465,19 @@ Citizen.CreateThread(function()
 				end
 
 				if CurrentAction == 'menu_boss_actions' then
-					OpenBossActionsMenu()
+					
+					ESX.UI.Menu.CloseAll()
+
+					TriggerEvent('esx_society:openBossMenu', 'police', function(data, menu)
+
+						menu.close()
+
+						CurrentAction     = 'menu_boss_actions'
+						CurrentActionMsg  = _U('open_bossmenu')
+						CurrentActionData = {}
+
+					end)
+
 				end
 
 				if CurrentAction == 'remove_entity' then

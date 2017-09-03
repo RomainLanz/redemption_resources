@@ -31,7 +31,8 @@
 }
 
 .menu > table > thead {
-  background-color: #256528;
+  font-family     : 'markmywords';
+  background-color: linear-gradient(135deg, rgba(169,3,41,0.8) 0%,rgba(143,2,34,0.8) 44%,rgba(109,0,25,0.8) 100%);
   text-align      : center;
   height          : 70px;
   line-height     : 70px;

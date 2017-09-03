@@ -57,7 +57,7 @@ function StartRespawnToHospitalMenuTimer()
 				'default', GetCurrentResourceName(), 'menuName',
 				{
 					title = _U('respawn_at_hospital'),
-					align = 'left',
+					align = 'top-left',
 					elements = elements
 				},
 		        function(data, menu) --Submit Cb
@@ -74,7 +74,7 @@ function StartRespawnToHospitalMenuTimer()
 
 						ESX.TriggerServerCallback('esx_ambulancejob:removeItemsAfterRPDeath', function()
 
-							ESX.PlayerData.lastPosition = Config.Zones.HospitalInteriorInside1.Pos
+							ESX.SetPlayerData('lastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 							TriggerServerEvent('esx:updateLastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 
 							RespawnPed(GetPlayerPed(-1), Config.Zones.HospitalInteriorInside1.Pos)
@@ -113,6 +113,7 @@ function StartRespawnTimer()
 
 				ESX.TriggerServerCallback('esx_ambulancejob:removeItemsAfterRPDeath', function()
 
+					ESX.SetPlayerData('lastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 					TriggerServerEvent('esx:updateLastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 
 					RespawnPed(GetPlayerPed(-1), Config.Zones.HospitalInteriorInside1.Pos)
@@ -172,6 +173,7 @@ function RespawnTimer()
 						ESX.TriggerServerCallback('esx_ambulancejob:removeItemsAfterRPDeathRemoveMoney', function()
 
 							TriggerServerEvent('esx_ambulancejob:removeAccountMoney', source)
+							ESX.SetPlayerData('lastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 							TriggerServerEvent('esx:updateLastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 
 							RespawnPed(GetPlayerPed(-1), Config.Zones.HospitalInteriorInside1.Pos)
@@ -220,6 +222,7 @@ function RespawnTimer()
 
 					ESX.TriggerServerCallback('esx_ambulancejob:removeItemsAfterRPDeath', function()
 
+						ESX.SetPlayerData('lastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 						TriggerServerEvent('esx:updateLastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 
 						RespawnPed(GetPlayerPed(-1), Config.Zones.HospitalInteriorInside1.Pos)
@@ -289,8 +292,7 @@ function OpenAmbulanceActionsMenu()
 	}
 
 	if Config.EnablePlayerManagement and PlayerData.job.grade_name == 'boss' then
-		table.insert(elements, {label = _U('withdraw_society'), value = 'withdraw_society_money'})
-		table.insert(elements, {label = _U('deposit_society'), value = 'deposit_society_money'})
+  	table.insert(elements, {label = 'Action Patron', value = 'boss_actions'})
 	end
 
 	ESX.UI.Menu.CloseAll()
@@ -299,7 +301,6 @@ function OpenAmbulanceActionsMenu()
 		'default', GetCurrentResourceName(), 'ambulance_actions',
 		{
 			title    = _U('ambulance'),
-			align 	 = 'left',
 			elements = elements
 		},
 		function(data, menu)
@@ -308,56 +309,10 @@ function OpenAmbulanceActionsMenu()
 				OpenCloakroomMenu()
 			end
 
-			if data.current.value == 'withdraw_society_money' then
-
-				ESX.UI.Menu.Open(
-					'dialog', GetCurrentResourceName(), 'withdraw_society_money_amount',
-					{
-						title = _U('money_withdraw')
-					},
-					function(data, menu)
-
-						local amount = tonumber(data.value)
-
-						if amount == nil then
-							ESX.ShowNotification(_U('invalid_amount'))
-						else
-							menu.close()
-							TriggerServerEvent('esx_society:withdrawMoney', 'ambulance', amount)
-						end
-
-					end,
-					function(data, menu)
-						menu.close()
-					end
-				)
-
-			end
-
-			if data.current.value == 'deposit_society_money' then
-
-				ESX.UI.Menu.Open(
-					'dialog', GetCurrentResourceName(), 'deposit_money_amount',
-					{
-						title = _U('deposit_amount')
-					},
-					function(data, menu)
-
-						local amount = tonumber(data.value)
-
-						if amount == nil then
-							ESX.ShowNotification(_U('invalid_amount'))
-						else
-							menu.close()
-							TriggerServerEvent('esx_society:depositMoney', 'ambulance', amount)
-						end
-
-					end,
-					function(data, menu)
-						menu.close()
-					end
-				)
-
+			if data.current.value == 'boss_actions' then
+				TriggerEvent('esx_society:openBossMenu', 'ambulance', function(data, menu)
+					menu.close()
+				end, {wash = false})
 			end
 
 		end,
@@ -382,7 +337,6 @@ function OpenMobileAmbulanceActionsMenu()
 		'default', GetCurrentResourceName(), 'mobile_ambulance_actions',
 		{
 			title    = _U('ambulance'),
-			align 	 = 'left',
 			elements = {
 				{label = _U('ems_menu'), value = 'citizen_interaction'},
 			}
@@ -395,7 +349,6 @@ function OpenMobileAmbulanceActionsMenu()
 					'default', GetCurrentResourceName(), 'citizen_interaction',
 					{
 						title    = _U('ems_menu_title'),
-						align 	 = 'left',
 						elements = {
 					  	{label = _U('ems_menu_revive'),             value = 'revive'},
 					  	{label = _U('ems_menu_putincar'), value = 'put_in_vehicle'},
@@ -473,7 +426,7 @@ function OpenCloakroomMenu()
 		'default', GetCurrentResourceName(), 'cloakroom',
 		{
 			title    = _U('cloakroom'),
-			align    = 'left',
+			align    = 'top-left',
 			elements = {
 				{label = _U('ems_clothes_civil'), value = 'citizen_wear'},
 				{label = _U('ems_clothes_ems'), value = 'ambulance_wear'},
@@ -523,7 +476,7 @@ function OpenVehicleSpawnerMenu()
 		'default', GetCurrentResourceName(), 'cloakroom',
 		{
 			title    = _U('veh_menu'),
-			align    = 'left',
+			align    = 'top-left',
 			elements = {
 				{label = _U('ambulance'),   value = 'ambulance'},
 				{label = _U('helicopter'), value = 'polmav'},
@@ -665,6 +618,12 @@ AddEventHandler('esx_ambulancejob:revive', function()
 			Citizen.Wait(0)
 		end
 
+		ESX.SetPlayerData('lastPosition', {
+			x = coords.x,
+			y = coords.y,
+			z = coords.z
+		})
+
 		TriggerServerEvent('esx:updateLastPosition', {
 			x = coords.x,
 			y = coords.y,
@@ -754,8 +713,7 @@ Citizen.CreateThread(function()
 
   SetBlipSprite (blip, 61)
   SetBlipDisplay(blip, 4)
-  SetBlipScale  (blip, 1.0)
-	SetBlipColour (blip, 2)
+  SetBlipScale  (blip, 1.2)
   SetBlipAsShortRange(blip, true)
 
 	BeginTextCommandSetBlipName("STRING")
