@@ -189,7 +189,7 @@ Citizen.CreateThread(function()
               end
             end
 
-            if weaponLicense and Config.Zones[CurrentActionData.zone].legal == 1 then
+            if weaponLicense or Config.Zones[CurrentActionData.zone].legal == 1 then
               OpenShopMenu(CurrentActionData.zone)
             else
               OpenBuyLicenseMenu()
