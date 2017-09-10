@@ -38,8 +38,8 @@ Config.Jobs.textil = {
 				{
 					name   = _U('dd_wool'),
 					db_name= "whool",
-					time   = 3000,
-					max    = 40,
+					time   = 2000,
+					max    = 60,
 					add    = 1,
 					remove = 1,
 					requires = "nothing",
@@ -52,7 +52,7 @@ Config.Jobs.textil = {
 		},
 
 		Fabric = {
-			Pos   = {x = 715.954650878906, y = -959.639587402344, z = 29.3953247070313},
+			Pos   = { x = 716.42, y = -961.55, z = 29.39 },
 			Size  = {x = 3.0, y = 3.0, z = 1.0},
 			Color = {r = 204, g = 204, b = 0},
 			Marker= 1,
@@ -64,8 +64,8 @@ Config.Jobs.textil = {
 				{
 					name   = _U('dd_fabric'),
 					db_name= "fabric",
-					time   = 5000,
-					max    = 80,
+					time   = 2500,
+					max    = 120,
 					add    = 2,
 					remove = 1,
 					requires = "whool",
@@ -82,15 +82,16 @@ Config.Jobs.textil = {
 			Size  = {x = 3.0, y = 3.0, z = 1.0},
 			Color = {r = 204, g = 204, b = 0},
 			Marker= 1,
-			Blip  = false,
+			Blip  = true,
+			Sprite= 218,
 			Name  = _U('dd_clothing'),
 			Type  = "work",
 			Item  = {
 				{
 					name   = _U('dd_clothing'),
 					db_name= "clothe",
-					time   = 4000,
-					max    = 40,
+					time   = 2000,
+					max    = 60,
 					add    = 1,
 					remove = 2,
 					requires = "fabric",
@@ -149,7 +150,7 @@ Config.Jobs.textil = {
 			Size  = {x = 5.0, y = 5.0, z = 3.0},
 			Marker= 1,
 			Blip  = true,
-			Sprite= 218,
+			Sprite= 219,
 			Name  = _U('delivery_point'),
 			Type  = "delivery",
 			Spawner = 1,
@@ -158,8 +159,8 @@ Config.Jobs.textil = {
 					name   = _U('delivery'),
 					time   = 500,
 					remove = 1,
-					max    = 100, -- if not present, probably an error at itemQtty >= item.max in esx_jobs_sv.lua
-					price  = 8,
+					max    = 60, -- if not present, probably an error at itemQtty >= item.max in esx_jobs_sv.lua
+					price  = 12,
 					requires = "clothe",
 					requires_name = _U('dd_clothing'),
 					drop   = 100

@@ -9,8 +9,8 @@ Config.RemoveItemsAfterRPDeath   = true
 Config.EnablePlayerManagement    = false
 Config.EnableSocietyOwnedVehicles = false
 Config.ShowDeathTimer						 = true
-Config.EarlyRespawn 						 = true
-Config.EarlyRespawnFine			 = true
+Config.EarlyRespawn 						 = false
+Config.EarlyRespawnFine			 		= true
 Config.EarlyRespawnFineAmount	 = 1000
 Config.Locale                   = 'fr'
 

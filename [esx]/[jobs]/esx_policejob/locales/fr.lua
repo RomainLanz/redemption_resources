@@ -45,6 +45,17 @@ Locales['fr'] = {
 		['spikestrips'] = 'herse',
 		['box'] = 'caisse',
 		['cash'] = 'caisse',
+
+		['police_animations'] = 'Animations',
+		['dotraffic'] = 'Faire le traffic',
+		['take_note'] = 'Prendre des notes',
+		['stand_by'] = 'Attendre',
+		['stand_by_2'] = 'Attendre 2',
+		['stand_by_3'] = 'Attendre 3',
+		['crowd_control'] = 'Contrôle de foule',
+		['doinvestigate'] = 'Investigation',
+		['dobinoculars'] = 'Utiliser les jumelles',
+		['taking_notes'] = 'Prendre des notes',
 	--ID Card Menu
 		['name'] = 'nom : ',
 		['bac'] = 'alcoolémie : ',

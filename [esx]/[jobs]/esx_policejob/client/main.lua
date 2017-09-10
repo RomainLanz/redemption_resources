@@ -472,7 +472,7 @@ function OpenPoliceActionsMenu()
 		  	{label = _U('citizen_interaction'), value = 'citizen_interaction'},
 		  	{label = _U('vehicle_interaction'), value = 'vehicle_interaction'},
 		  	{label = _U('object_spawner'),      value = 'object_spawner'},
-			{label = _U('animations'),          value = 'animations'},
+			-- {label = _U('animations'),          value = 'animations'},
 			},
 		},
 		function(data, menu)
@@ -671,14 +671,6 @@ function OpenPoliceActionsMenu()
 					    {label = _U('stand_by_3'),    value = 'standbycop3'},
 					    {label = _U('crowd_control'), value = 'crowdcontrol'},
 					    {label = _U('doinvestigate'), value = 'investigate'},
-					    {label = _U('docrouch'),      value = 'crouch'},
-					    {label = _U('hang_out'),      value = 'hangout'},
-					    {label = _U('doleaning'),     value = 'leaning'},
-					    {label = _U('dosmoking'),     value = 'smoking'},
-					    {label = _U('dodrinking'),    value = 'drinking'},
-					    {label = _U('domobile'),      value = 'mobile'},
-					    {label = _U('aacoffe'),       value = 'coffe'},
-					    {label = _U('push_ups'),      value = 'pushups'},
 						},
 					},
                                         function(data2, menu2)
