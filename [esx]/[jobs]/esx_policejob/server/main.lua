@@ -6,7 +6,7 @@ if Config.MaxInService ~= -1 then
 	TriggerEvent('esx_service:activateService', 'police', Config.MaxInService)
 end
 
-TriggerEvent('esx_phone:registerNumber', 'police', _('alert_police'), true, true)
+TriggerEvent('esx_phone:registerNumber', 'police', _U('alert_police'), true, true)
 
 RegisterServerEvent('esx_policejob:giveWeapon')
 AddEventHandler('esx_policejob:giveWeapon', function(weapon, ammo)
@@ -70,6 +70,11 @@ AddEventHandler('esx_policejob:putInVehicle', function(target)
 	TriggerClientEvent('esx_policejob:putInVehicle', target)
 end)
 
+RegisterServerEvent('esx_policejob:OutVehicle')
+AddEventHandler('esx_policejob:OutVehicle', function(target)
+    TriggerClientEvent('esx_policejob:OutVehicle', target)
+end)
+
 RegisterServerEvent('esx_policejob:getStockItem')
 AddEventHandler('esx_policejob:getStockItem', function(itemName, count)
 
@@ -83,10 +88,10 @@ AddEventHandler('esx_policejob:getStockItem', function(itemName, count)
 			inventory.removeItem(itemName, count)
 			xPlayer.addInventoryItem(itemName, count)
 		else
-			TriggerClientEvent('esx:showNotification', xPlayer.source, 'Quantité invalide')
+			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('quantity_invalid'))
 		end
 
-		TriggerClientEvent('esx:showNotification', xPlayer.source, 'Vous avez retiré x' .. count .. ' ' .. item.label)
+		TriggerClientEvent('esx:showNotification', xPlayer.source, _U('have_withdrawn') .. count .. ' ' .. item.label)
 
 	end)
 
@@ -105,10 +110,10 @@ AddEventHandler('esx_policejob:putStockItems', function(itemName, count)
 			xPlayer.removeInventoryItem(itemName, count)
 			inventory.addItem(itemName, count)
 		else
-			TriggerClientEvent('esx:showNotification', xPlayer.source, 'Quantité invalide')
+			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('quantity_invalid'))
 		end
 
-		TriggerClientEvent('esx:showNotification', xPlayer.source, 'Vous avez ajouté x' .. count .. ' ' .. item.label)
+		TriggerClientEvent('esx:showNotification', xPlayer.source, _U('added') .. count .. ' ' .. item.label)
 
 	end)
 
@@ -116,16 +121,39 @@ end)
 
 ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, cb, target)
 
+	if Config.EnableGCIdentity then
+	
 		local xPlayer = ESX.GetPlayerFromId(target)
-
+		
+		local identifier = GetPlayerIdentifiers(target)[1]
+		
+		local result = MySQL.Sync.fetchAll("SELECT firstname, lastname, sex, dateofbirth, height FROM users WHERE identifier = @identifier", {
+			['@identifier'] = identifier
+		})
+			
+		local user 			= result[1]
+		local firstname 		= user['firstname']
+		local lastname  		= user['lastname']
+		local sex           		= user['sex']
+		local dob           		= tostring(user['dateofbirth'])
+		local heightInit    		= user['height']	
+		local heightFeet 		= tonumber(string.format("%.0f",heightInit / 12, 0))
+		local heightInches 		= heightInit % 12
+		local height 	   		= heightFeet .. "\' " .. heightInches .. "\""
+		
 		local data = {
-			name       = GetPlayerName(target),
-			job        = xPlayer.job,
-			inventory  = xPlayer.inventory,
-			accounts   = xPlayer.accounts,
-			weapons    = xPlayer.loadout
+			name       	= GetPlayerName(target),
+			job        	= xPlayer.job,
+			inventory  	= xPlayer.inventory,
+			accounts   	= xPlayer.accounts,
+			weapons    	= xPlayer.loadout,
+			firstname  	= firstname,
+			lastname   	= lastname,
+			sex         	= sex,
+			dob         	= dob,
+			height      	= height
 		}
-
+		
 		TriggerEvent('esx_status:getStatus', _source, 'drunk', function(status)
 
 			if status ~= nil then
@@ -139,6 +167,34 @@ ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, 
 		end)
 
 		cb(data)
+	
+	else
+	
+		local xPlayer = ESX.GetPlayerFromId(target)
+
+		local data = {
+			name       = GetPlayerName(target),
+			job        = xPlayer.job,
+			inventory  = xPlayer.inventory,
+			accounts   = xPlayer.accounts,
+			weapons    = xPlayer.loadout
+		}
+			
+		TriggerEvent('esx_status:getStatus', _source, 'drunk', function(status)
+
+			if status ~= nil then
+				data.drunk = status.getPercent()
+			end
+			
+		end)
+
+		TriggerEvent('esx_license:getLicenses', _source, function(licenses)
+			data.licenses = licenses
+		end)
+
+		cb(data)
+		
+	end
 
 end)
 
@@ -158,55 +214,113 @@ end)
 
 ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb, plate)
 
-	MySQL.Async.fetchAll(
-		'SELECT * FROM owned_vehicles',
-		{},
-		function(result)
+	if Config.EnableGCIdentity then
+	
+		MySQL.Async.fetchAll(
+			'SELECT * FROM owned_vehicles',
+			{},
+			function(result)
 			
-			local foundIdentifier = nil
+				local foundIdentifier = nil
 
-			for i=1, #result, 1 do
+				for i=1, #result, 1 do
 				
-				local vehicleData = json.decode(result[i].vehicle)
+					local vehicleData = json.decode(result[i].vehicle)
 
-				if vehicleData.plate == plate then
-					foundIdentifier = result[i].owner
-					break
+					if vehicleData.plate == plate then
+						foundIdentifier = result[i].owner
+						break
+					end
+
+				end
+
+				if foundIdentifier ~= nil then
+
+					MySQL.Async.fetchAll(
+						'SELECT * FROM users WHERE identifier = @identifier',
+						{
+							['@identifier'] = foundIdentifier
+						},
+						function(result)
+							
+							local ownerName = result[1].firstname .. " " .. result[1].lastname
+
+							local infos = {
+								plate = plate,
+								owner = ownerName
+							}
+
+							cb(infos)
+
+						end
+					)
+			
+				else
+
+					local infos = {
+					plate = plate
+					}
+
+					cb(infos)
+
 				end
 
 			end
-
-			if foundIdentifier ~= nil then
-
-				MySQL.Async.fetchAll(
-					'SELECT * FROM users WHERE identifier = @identifier',
-					{
-						['@identifier'] = foundIdentifier
-					},
-					function(result)
-
-						local infos = {
-							plate = plate,
-							owner = result[1].name
-						}
-
-						cb(infos)
-
-					end
-				)
+		)	
+	
+	else
+	
+		MySQL.Async.fetchAll(
+			'SELECT * FROM owned_vehicles',
+			{},
+			function(result)
 			
-			else
+				local foundIdentifier = nil
 
-				local infos = {
+				for i=1, #result, 1 do
+				
+					local vehicleData = json.decode(result[i].vehicle)
+
+					if vehicleData.plate == plate then
+						foundIdentifier = result[i].owner
+						break
+					end
+
+				end
+
+				if foundIdentifier ~= nil then
+
+					MySQL.Async.fetchAll(
+						'SELECT * FROM users WHERE identifier = @identifier',
+						{
+							['@identifier'] = foundIdentifier
+						},
+						function(result)
+
+							local infos = {
+								plate = plate,
+								owner = result[1].name
+							}
+
+							cb(infos)
+
+						end
+					)
+			
+				else
+
+					local infos = {
 					plate = plate
-				}
+					}
 
-				cb(infos)
+					cb(infos)
+
+				end
 
 			end
-
-		end
-	)
+		)
+		
+	end
 
 end)
 
