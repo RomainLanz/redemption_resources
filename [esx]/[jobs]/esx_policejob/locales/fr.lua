@@ -3,6 +3,11 @@ Locales['fr'] = {
 		['cloakroom'] = 'vestiaire',
 		['citizen_wear'] = 'tenue Civil',
 		['police_wear'] = 'tenue Policier',
+		['sheriff_wear'] = 'sheriff Outfit',
+		['lieutenant_wear'] = 'Swatt outfit ',
+		['commandant_wear'] = 'FBI outfit',
+		['statepd_wear'] = 'State Police outfit',
+		['specops_wear'] = 'Spec OPS outfit',
 		['open_cloackroom'] = 'appuez sur ~INPUT_CONTEXT~ pour vous changer',
 	--Armory
 		['get_weapon'] = 'prendre Arme',
@@ -26,6 +31,7 @@ Locales['fr'] = {
 		['handcuff'] = 'menotter / Démenotter',
 		['drag'] = 'escorter',
 		['put_in_vehicle'] = 'mettre dans véhicule',
+		['out_the_vehicle'] = 'sortir du véhicule',
 		['fine'] = 'Amende',
 		['no_players_nearby'] = 'aucun joueur à proximité',
 
@@ -70,6 +76,12 @@ Locales['fr'] = {
 		['invalid_amount'] = 'montant invalide',
 		['amount_of_deposit'] = 'montant du dépôt',
 		['open_bossmenu'] = 'appuez sur ~INPUT_CONTEXT~ pour ouvrir le menu',
+		['quantity_invalid'] = 'Quantité invalide',
+		['have_withdrawn'] = 'Vous avez retiré x',
+		['added'] = 'Vous avez ajouté x',
+		['quantity'] = 'Quantité',
+		['inventory'] = 'inventaire',
+		['police_stock'] = 'Police Stock',
 	--Misc
 		['remove_object'] = 'appuez sur ~INPUT_CONTEXT~ pour enlever l\'objet',
 		['map_blip'] = 'Commissariat',

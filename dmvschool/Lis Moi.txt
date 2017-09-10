@@ -1,0 +1,27 @@
+--[[
+#####################################################################################################
+Permis de Conduire By Super.Cool.Ninja 
+Un grand merci a [FiveDev] renaiku !! pour son soutient.
+#####################################################################################################
+--]]
+
+
+
+
+***Permis de conduire Seulement [ESX]***
+
+
+Installation:
+
+1 - Faites glisser les deux fichiers pNotify et dmvschool dans vos ressources
+
+2 - Sur votre serveur.cfg lancer vos ressource de cette manière en dessous.
+    start pNotify 
+    start dmvschool 
+
+3 - Ajoutée le Sql a votre base de donnée.
+
+4 - Profiter Bon mods et bon RP.^^
+
+
+Prochainement une nouvelle version de GuiZz arrivera sur le github.

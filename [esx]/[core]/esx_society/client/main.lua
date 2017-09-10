@@ -280,7 +280,7 @@ function OpenRecruitMenu(society)
       {
         title    = _U('recruiting'),
         align    = 'left',
-        elements = elements,
+        elements = elements
       },
       function(data, menu)
 
@@ -340,7 +340,7 @@ function OpenPromoteMenu(society, employee)
       {
         title    = _U('promote_employee', employee.name),
         align    = 'left',
-        elements = elements,
+        elements = elements
       },
       function(data, menu)
         menu.close()
@@ -378,7 +378,7 @@ function OpenManageGradesMenu(society)
       {
         title    = _U('salary_management'),
         align    = 'left',
-        elements = elements,
+        elements = elements
       },
       function(data, menu)
 

@@ -110,10 +110,44 @@ function OpenMecanoActionsMenu()
 		'default', GetCurrentResourceName(), 'mecano_actions',
 		{
 			title    = 'Mecano',
+			align    = 'left',
 			elements = elements
 		},
 		function(data, menu)
 			if data.current.value == 'vehicle_list' then
+
+				if Config.EnableSocietyOwnedVehicles then
+					local elements = {}
+
+					ESX.TriggerServerCallback('esx_society:getVehiclesInGarage', function(vehicles)
+						for i=1, #vehicles, 1 do
+							table.insert(elements, {label = GetDisplayNameFromVehicleModel(vehicles[i].model) .. ' [' .. vehicles[i].plate .. ']', value = vehicles[i]})
+						end
+
+						ESX.UI.Menu.Open(
+							'default', GetCurrentResourceName(), 'vehicle_spawner',
+							{
+								title    = 'Véhicule de service',
+								align    = 'left',
+								elements = elements,
+							},
+							function(data, menu)
+								menu.close()
+								local vehicleProps = data.current.value
+								ESX.Game.SpawnVehicle(vehicleProps.model, Config.Zones.VehicleSpawnPoint.Pos, 270.0, function(vehicle)
+									ESX.Game.SetVehicleProperties(vehicle, vehicleProps)
+									local playerPed = GetPlayerPed(-1)
+									TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
+								end)
+								TriggerServerEvent('esx_society:removeVehicleFromGarage', 'mecano', vehicleProps)
+							end,
+							function(data, menu)
+								menu.close()
+							end
+						)
+					end, 'mecano')
+				else
+
 				local elements = {
 					{label = 'Plateau', value = 'flatbed'},
 					{label = 'Dépaneuse', value = 'towtruck2'}					
@@ -130,6 +164,7 @@ function OpenMecanoActionsMenu()
 					'default', GetCurrentResourceName(), 'spawn_vehicle',
 					{
 						title    = 'Véhicule de service',
+						align    = 'left',
 						elements = elements
 					},
 					function(data, menu)
@@ -864,9 +899,10 @@ AddEventHandler('esx_mecanojob:hasEnteredMarker', function(zone)
 	if zone == 'VehicleDeleter' then
 		local playerPed = GetPlayerPed(-1)
 		if IsPedInAnyVehicle(playerPed,  false) then
+			local vehicle = GetVehiclePedIsIn(playerPed,  false)
 			CurrentAction     = 'delete_vehicle'
 			CurrentActionMsg  = 'Appuyez sur ~INPUT_CONTEXT~ pour ranger le véhicule.'
-			CurrentActionData = {}
+			CurrentActionData = {vehicle = vehicle}
 		end
 	end
 
@@ -1070,21 +1106,25 @@ Citizen.CreateThread(function()
                     OpenMecanoCraftMenu()
                 end
                 if CurrentAction == 'delete_vehicle' then
-                    local playerPed = GetPlayerPed(-1)
-                    local vehicle   = GetVehiclePedIsIn(playerPed,  false)
-                    local hash      = GetEntityModel(vehicle)
-                    if hash == GetHashKey('flatbed') or hash == GetHashKey('towtruck2') or hash == GetHashKey('slamvan3') then
-                        if Config.MaxInService ~= -1 then
-                            TriggerServerEvent('esx_service:disableService', 'mecano')
-                        end                        
-                        DeleteVehicle(vehicle)
-                    else
-                        ESX.ShowNotification('Vous ne pouvez ranger que des ~b~véhicules de Mécano~s~.')
-                    end
-                end
-                if CurrentAction == 'remove_entity' then
-					DeleteEntity(CurrentActionData.entity)
-				end
+                	if Config.EnableSocietyOwnedVehicles then
+                		local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
+                		TriggerServerEvent('esx_society:putVehicleInGarage', 'mecano', vehicleProps)
+                	else
+                		if
+ 											GetEntityModel(vehicle) == GetHashKey('flatbed')   or
+ 											GetEntityModel(vehicle) == GetHashKey('towtrcuk2') or
+											GetEntityModel(vehicle) == GetHashKey('slamvan3')
+										then
+											TriggerServerEvent('esx_service:disableService', 'mecano')
+										end
+									end
+
+									ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+								end
+                    
+          			if CurrentAction == 'remove_entity' then
+									DeleteEntity(CurrentActionData.entity)
+								end
                 CurrentAction = nil               
             end
         end
