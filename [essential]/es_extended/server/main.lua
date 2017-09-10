@@ -246,7 +246,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 					job          = xPlayer.getJob(),
 					loadout      = xPlayer.getLoadout(),
 					lastPosition = xPlayer.getLastPosition(),
-					money        = xPlayer.player.get('money')
+					money        = xPlayer.get('money')
 				})
 				
 				xPlayer.player.displayMoney(xPlayer.get('money'))
@@ -558,7 +558,7 @@ ESX.RegisterServerCallback('esx:getPlayerData', function(source, cb)
 		job          = xPlayer.getJob(),
 		loadout      = xPlayer.getLoadout(),
 		lastPosition = xPlayer.getLastPosition(),
-		money        = xPlayer.player.get('money')
+		money        = xPlayer.get('money')
 	})
 
 end)
@@ -573,7 +573,7 @@ ESX.RegisterServerCallback('esx:getOtherPlayerData', function(source, cb, target
 		job          = xPlayer.getJob(),
 		loadout      = xPlayer.getLoadout(),
 		lastPosition = xPlayer.getLastPosition(),
-		money        = xPlayer.player.get('money')
+		money        = xPlayer.get('money')
 	})
 
 end)
