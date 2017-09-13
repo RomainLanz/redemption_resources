@@ -314,7 +314,6 @@ AddEventHandler('skinchanger:loadSkin', function(skin)
 	end
 
 	LastSex = skin['sex']
-
 end)
 
 RegisterNetEvent('skinchanger:loadClothes')

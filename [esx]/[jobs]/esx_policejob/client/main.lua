@@ -97,33 +97,25 @@ function OpenCloakroomMenu()
 
 			if data.current.value == 'citizen_wear' then
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = nil
 
        		if skin.sex == 0 then
-
-            local model = GetHashKey("mp_m_freemode_01")
-            RequestModel(model)
-            while not HasModelLoaded(model) do
-              RequestModel(model)
-              Citizen.Wait(1)
-	          end
-
-            SetPlayerModel(PlayerId(), model)
-            SetModelAsNoLongerNeeded(model)
-            TriggerEvent('skinchanger:loadSkin', skin)
+            model = GetHashKey("mp_m_freemode_01")
           else
-            local model = GetHashKey("mp_f_freemode_01")
-
-            RequestModel(model)
-            while not HasModelLoaded(model) do
-              RequestModel(model)
-              Citizen.Wait(1)
-            end
-
-            SetPlayerModel(PlayerId(), model)
-	          SetModelAsNoLongerNeeded(model)
-            TriggerEvent('skinchanger:loadSkin', skin)
+            model = GetHashKey("mp_f_freemode_01")
           end
 
+          RequestModel(model)
+          while not HasModelLoaded(model) do
+            RequestModel(model)
+            Citizen.Wait(1)
+          end
+
+          SetPlayerModel(PlayerId(), model)
+          SetModelAsNoLongerNeeded(model)
+
+          TriggerEvent('skinchanger:loadSkin', skin)
+          TriggerEvent('esx:restoreLoadout')
         end)
       end
 
