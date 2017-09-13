@@ -8,13 +8,14 @@ AddEventHandler('esx_ambulancejob:revive', function(target)
 end)
 
 TriggerEvent('esx_phone:registerNumber', 'ambulance', _('alert_ambulance'), true, true)
+TriggerEvent('esx_society:registerSociety', 'ambulance', 'Ambulance', 'society_ambulance', 'society_ambulance', 'society_ambulance', {type = 'public'})
 
 ESX.RegisterServerCallback('esx_ambulancejob:removeItemsAfterRPDeath', function(source, cb)
 
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if Config.RemoveCashAfterRPDeath then
-		xPlayer.set('money', 0)
+		xPlayer.removeMoney(xPlayer.getMoney())
 		xPlayer.setAccountMoney('black_money', 0)
 	end
 
@@ -41,7 +42,7 @@ ESX.RegisterServerCallback('esx_ambulancejob:removeItemsAfterRPDeathRemoveMoney'
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if Config.RemoveCashAfterRPDeath then
-		xPlayer.set('money', 0)
+		xPlayer.removeMoney(xPlayer.getMoney())
 		xPlayer.setAccountMoney('black_money', 0)
 	end
 

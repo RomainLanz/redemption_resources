@@ -37,6 +37,7 @@ Citizen.CreateThread(function()
 end)
 
 function OpenPhone()
+  local playerPed = GetPlayerPed(-1)
 
   TriggerServerEvent('esx_phone:reload', PhoneData.phoneNumber)
 
@@ -51,9 +52,14 @@ function OpenPhone()
     SetNuiFocus(true, true)
   end)
 
+  if not IsPedInAnyVehicle(playerPed,  false) then
+    TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_STAND_MOBILE", 0, true);
+  end
 end
 
 function ClosePhone()
+
+  local playerPed = GetPlayerPed(-1)
 
   SendNUIMessage({
     showPhone = false
@@ -63,6 +69,7 @@ function ClosePhone()
 
   GUI.PhoneIsShowed = false
 
+  ClearPedTasks(playerPed)
 end
 
 RegisterNetEvent('esx_phone:loaded')

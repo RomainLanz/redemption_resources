@@ -2,12 +2,15 @@ Locales['fr'] = {
 	--Cloakroom
 		['cloakroom'] = 'vestiaire',
 		['citizen_wear'] = 'tenue Civil',
-		['police_wear'] = 'tenue Policier',
-		['sheriff_wear'] = 'sheriff Outfit',
-		['lieutenant_wear'] = 'Swatt outfit ',
-		['commandant_wear'] = 'FBI outfit',
-		['statepd_wear'] = 'State Police outfit',
-		['specops_wear'] = 'Spec OPS outfit',
+		['cadet_wear'] = 'tenue Cadet',
+		['police_wear'] = 'tenue Officier',
+		['sergent_wear'] = 'tenue Sergent',
+		['lieutenant_wear'] = 'tenue Lieutenant',
+		['commandant_wear'] = 'tenue Commandant',
+		['veste_wear'] = 'Gilet par balle',
+		['gilet_wear'] = 'Enlever Gilet Par balle',
+		['giletj_wear'] = 'Gilet jaune',
+		['rgiletj_wear'] = 'Enlever Gilet jaune',
 		['open_cloackroom'] = 'appuez sur ~INPUT_CONTEXT~ pour vous changer',
 	--Armory
 		['get_weapon'] = 'prendre Arme',
@@ -18,8 +21,8 @@ Locales['fr'] = {
 	--Vehicles
 		['vehicle_menu'] = 'véhicule',
 		['vehicle_out'] = 'il y a déja un véhicule de sorti',
-		['vehicle_spawner'] = 'appuez sur ~INPUT_CONTEXT~ pour sortir un véhicule',
-		['store_vehicle'] = 'appuez sur ~INPUT_CONTEXT~ pour ranger le véhicule',
+		['vehicle_spawner'] = 'appuyez sur ~INPUT_CONTEXT~ pour sortir un véhicule',
+		['store_vehicle'] = 'appuyez sur ~INPUT_CONTEXT~ pour ranger le véhicule',
 		['service_max'] = 'Service complet : ',
 	--Action Menu
 		['citizen_interaction'] = 'interaction citoyen',

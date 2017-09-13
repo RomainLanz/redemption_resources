@@ -24,6 +24,7 @@ local CurrentAction           = nil
 local CurrentActionMsg        = ''
 local CurrentActionData       = {}
 local FirstSpawn              = true
+local HasChest                = false
 
 function DrawSub(text, time)
   ClearPrints()
@@ -42,9 +43,9 @@ function CreateBlips()
 
 			Blips[property.name] = AddBlipForCoord(property.entering.x, property.entering.y, property.entering.z)
 
-		  SetBlipSprite (Blips[property.name], 369)
+		  SetBlipSprite (Blips[property.name], 350)
 		  SetBlipDisplay(Blips[property.name], 4)
-		  SetBlipScale  (Blips[property.name], 1.0)
+		  SetBlipScale  (Blips[property.name], 0.6)
 		  SetBlipAsShortRange(Blips[property.name], true)
 
 			BeginTextCommandSetBlipName("STRING")
@@ -280,7 +281,7 @@ function OpenPropertyMenu(property)
 		'default', GetCurrentResourceName(), 'property',
 		{
 			title    = property.label,
-			align    = 'top-left',
+			align    = 'left',
 			elements = elements,
 		},
 		function(data2, menu)
@@ -330,7 +331,7 @@ function OpenGatewayMenu(property)
 			'default', GetCurrentResourceName(), 'gateway',
 			{
 				title    = property.name,
-				align    = 'top-left',
+				align    = 'left',
 				elements = {
 					{label = _U('owned_properties'),    value = 'owned_properties'},
 					{label = _U('available_properties'), value = 'available_properties'},
@@ -382,7 +383,7 @@ function OpenGatewayOwnedPropertiesMenu(property)
 		'default', GetCurrentResourceName(), 'gateway_owned_properties',
 		{
 			title    = property.name .. ' - ' .. _U('owned_properties'),
-			align    = 'top-left',
+			align    = 'left',
 			elements = elements,
 		},
 		function(data, menu)
@@ -401,7 +402,7 @@ function OpenGatewayOwnedPropertiesMenu(property)
 				'default', GetCurrentResourceName(), 'gateway_owned_properties_actions',
 				{
 					title    = data.current.label,
-					align    = 'top-left',
+					align    = 'left',
 					elements = elements,
 				},
 				function(data2, menu)
@@ -451,7 +452,7 @@ function OpenGatewayAvailablePropertiesMenu(property)
 		'default', GetCurrentResourceName(), 'gateway_available_properties',
 		{
 			title    = property.name.. ' - ' .. _U('available_properties'),
-			align    = 'top-left',
+			align    = 'left',
 			elements = elements,
 		},
 		function(data, menu)
@@ -462,7 +463,7 @@ function OpenGatewayAvailablePropertiesMenu(property)
 				'default', GetCurrentResourceName(), 'gateway_available_properties_actions',
 				{
 					title    = property.name,
-					align    = 'top-left',
+					align    = 'left',
 					elements = {
 						{label = _U('buy'), value = 'buy'},
 						{label = _U('rent'),   value = 'rent'},
@@ -524,7 +525,7 @@ function OpenRoomMenu(property, owner)
 		'default', GetCurrentResourceName(), 'room',
 		{
 			title    = property.label,
-			align    = 'top-left',
+			align    = 'left',
 			elements = elements,
 		},
 		function(data, menu)
@@ -544,7 +545,7 @@ function OpenRoomMenu(property, owner)
 					'default', GetCurrentResourceName(), 'room_invite',
 					{
 						title    = property.label .. ' - ' .. _U('invite'),
-						align    = 'top-left',
+						align    = 'left',
 						elements = elements,
 					},
 					function(data, menu)
@@ -572,7 +573,7 @@ function OpenRoomMenu(property, owner)
 						'default', GetCurrentResourceName(), 'player_dressing',
 						{
 							title    = property.label .. ' - ' .. _U('player_clothes'),
-							align    = 'top-left',
+							align    = 'left',
 							elements = elements,
 						},
 						function(data, menu)
@@ -646,7 +647,7 @@ function OpenRoomInventoryMenu(property, owner)
 			'default', GetCurrentResourceName(), 'room_inventory',
 			{
 				title    = property.label .. ' - ' .. _U('inventory'),
-				align    = 'top-left',
+				align    = 'left',
 				elements = elements,
 			},
 			function(data, menu)
@@ -740,7 +741,7 @@ function OpenPlayerInventoryMenu(property, owner)
 			'default', GetCurrentResourceName(), 'player_inventory',
 			{
 				title    = property.label .. ' - ' .. _U('inventory'),
-				align    = 'top-left',
+				align    = 'left',
 				elements = elements,
 			},
 			function(data, menu)
@@ -868,6 +869,29 @@ AddEventHandler('instance:onCreate', function(instance)
 
 end)
 
+RegisterNetEvent('instance:onEnter')
+AddEventHandler('instance:onEnter', function(instance)
+	
+	if instance.type == 'property' then
+
+		local property = GetProperty(instance.data.property)
+		local isHost   = GetPlayerFromServerId(instance.host) == PlayerId()
+		local isOwned  = false
+
+		if PropertyIsOwned(property) == true then
+			isOwned = true
+		end
+
+		if(isOwned or not isHost) then
+			HasChest = true
+		else
+			HasChest = false
+		end
+
+	end
+
+end)
+
 RegisterNetEvent('instance:onPlayerLeft')
 AddEventHandler('instance:onPlayerLeft', function(instance, player)
 	if player == instance.host then
@@ -938,6 +962,7 @@ Citizen.CreateThread(function()
 		for i=1, #Config.Properties, 1 do
 
 			local property = Config.Properties[i]
+			local isHost   = false
 
 			if(property.entering ~= nil and not property.disabled and GetDistanceBetweenCoords(coords, property.entering.x, property.entering.y, property.entering.z, true) < Config.DrawDistance) then
 				DrawMarker(Config.MarkerType, property.entering.x, property.entering.y, property.entering.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
@@ -947,7 +972,7 @@ Citizen.CreateThread(function()
 				DrawMarker(Config.MarkerType, property.exit.x, property.exit.y, property.exit.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
 			end
 
-			if(property.roomMenu ~= nil and not property.disabled and GetDistanceBetweenCoords(coords, property.roomMenu.x, property.roomMenu.y, property.roomMenu.z, true) < Config.DrawDistance) then
+			if(property.roomMenu ~= nil and HasChest and not property.disabled and GetDistanceBetweenCoords(coords, property.roomMenu.x, property.roomMenu.y, property.roomMenu.z, true) < Config.DrawDistance) then
 				DrawMarker(Config.MarkerType, property.roomMenu.x, property.roomMenu.y, property.roomMenu.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.RoomMenuMarkerColor.r, Config.RoomMenuMarkerColor.g, Config.RoomMenuMarkerColor.b, 100, false, true, 2, false, false, false, false)
 			end
 
@@ -995,7 +1020,7 @@ Citizen.CreateThread(function()
 				currentPart     = 'outside'
 			end
 
-			if(property.roomMenu ~= nil and not property.disabled and GetDistanceBetweenCoords(coords, property.roomMenu.x, property.roomMenu.y, property.roomMenu.z, true) < Config.MarkerSize.x) then
+			if(property.roomMenu ~= nil and HasChest and not property.disabled and GetDistanceBetweenCoords(coords, property.roomMenu.x, property.roomMenu.y, property.roomMenu.z, true) < Config.MarkerSize.x) then
 				isInMarker      = true
 				currentProperty = property.name
 				currentPart     = 'roomMenu'
