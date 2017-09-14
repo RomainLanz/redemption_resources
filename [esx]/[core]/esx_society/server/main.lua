@@ -197,35 +197,60 @@ end)
 
 ESX.RegisterServerCallback('esx_society:getEmployees', function(source, cb, society)
 
-	MySQL.Async.fetchAll(
-		'SELECT * FROM users WHERE job = @job ORDER BY job_grade DESC',
-		{
-			['@job'] = society
-		},
-		function(result)
+	if Config.EnableESXIdentity then
+		MySQL.Async.fetchAll(
+			'SELECT characters.*, users.job, users.job_grade FROM characters JOIN users ON characters.identifier = users.identifier WHERE users.job = @job ORDER BY users.job_grade DESC',
+			{ ['@job'] = society },
+			function (results)
+				local employees = {}
 
-			local employees = {}
+				for i=1, #results, 1 do
+					table.insert(employees, {
+						name 				= results[i].firstname .. ' ' .. results[i].lastname,
+						identifier  = results[i].identifier,
+						job = {
+							name        = results[i].job,
+							label       = Jobs[results[i].job].label,
+							grade       = results[i].job_grade,
+							grade_name  = Jobs[results[i].job].grades[tostring(results[i].job_grade)].name,
+							grade_label = Jobs[results[i].job].grades[tostring(results[i].job_grade)].label,
+						}
+					})
+				end
 
-			for i=1, #result, 1 do
-
-				table.insert(employees, {
-					name        = result[i].name,
-					identifier  = result[i].identifier,
-					job = {
-						name        = result[i].job,
-						label       = Jobs[result[i].job].label,
-						grade       = result[i].job_grade,
-						grade_name  = Jobs[result[i].job].grades[tostring(result[i].job_grade)].name,
-						grade_label = Jobs[result[i].job].grades[tostring(result[i].job_grade)].label,
-					}
-				})
+				cb(employees)
 			end
+		)
+	else
+		MySQL.Async.fetchAll(
+			'SELECT * FROM users WHERE job = @job ORDER BY job_grade DESC',
+			{
+				['@job'] = society
+			},
+			function(result)
 
-			cb(employees)
+				local employees = {}
 
-		end
-	)
+				for i=1, #result, 1 do
 
+					table.insert(employees, {
+						name        = result[i].name,
+						identifier  = result[i].identifier,
+						job = {
+							name        = result[i].job,
+							label       = Jobs[result[i].job].label,
+							grade       = result[i].job_grade,
+							grade_name  = Jobs[result[i].job].grades[tostring(result[i].job_grade)].name,
+							grade_label = Jobs[result[i].job].grades[tostring(result[i].job_grade)].label,
+						}
+					})
+				end
+
+				cb(employees)
+
+			end
+		)
+	end
 end)
 
 ESX.RegisterServerCallback('esx_society:getJob', function(source, cb, society)
@@ -318,12 +343,21 @@ ESX.RegisterServerCallback('esx_society:getOnlinePlayers', function(source, cb)
 
 		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
 
-		table.insert(players, {
-			source     = xPlayer.source,
-			identifier = xPlayer.identifier,
-			name       = xPlayer.name,
-			job        = xPlayer.job
-		})
+		if Config.EnableESXIdentity then
+			table.insert(players, {
+				source     = xPlayer.source,
+				identifier = xPlayer.identifier,
+				name       = xPlayer.name,
+				job        = xPlayer.job
+			})
+		else
+			table.insert(players, {
+				source     = xPlayer.source,
+				identifier = xPlayer.identifier,
+				name       = xPlayer.name,
+				job        = xPlayer.job
+			})
+		end
 
 	end
 
