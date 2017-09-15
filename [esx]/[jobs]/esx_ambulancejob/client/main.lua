@@ -57,7 +57,7 @@ function StartRespawnToHospitalMenuTimer()
 				'default', GetCurrentResourceName(), 'menuName',
 				{
 					title = _U('respawn_at_hospital'),
-					align = 'top-left',
+					align = 'left',
 					elements = elements
 				},
 		        function(data, menu) --Submit Cb
@@ -426,7 +426,7 @@ function OpenCloakroomMenu()
 		'default', GetCurrentResourceName(), 'cloakroom',
 		{
 			title    = _U('cloakroom'),
-			align    = 'top-left',
+			align    = 'left',
 			elements = {
 				{label = _U('ems_clothes_civil'), value = 'citizen_wear'},
 				{label = _U('ems_clothes_ems'), value = 'ambulance_wear'},
@@ -488,7 +488,7 @@ function OpenVehicleSpawnerMenu()
 				'default', GetCurrentResourceName(), 'vehicle_spawner',
 				{
 					title    = _U('veh_menu'),
-					align    = 'top-left',
+					align    = 'left',
 					elements = elements,
 				},
 				function(data, menu)
@@ -525,7 +525,7 @@ function OpenVehicleSpawnerMenu()
 			'default', GetCurrentResourceName(), 'vehicle_spawner',
 			{
 				title    = _U('veh_menu'),
-				align    = 'top-left',
+				align    = 'left',
 				elements = {
 					{label = _U('ambulance'),  value = 'ambulance'},
 					{label = _U('helicopter'), value = 'polmav'},

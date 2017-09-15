@@ -10,41 +10,41 @@ Config.NPCJobEarnings         = {min = 15, max = 40}
 Config.Zones = {
 
 	MecanoActions = {
-		Pos   = {x = -347.291, y = -133.370, z = 38.009},
+		Pos   = { x = -224.23, y = -1320.04, z = 29.88 },
 		Size  = {x = 1.5, y = 1.5, z = 1.0},
 		Color = {r = 204, g = 204, b = 0},
 		Type  = 1
 	},
 
 	Garage = {
-		Pos   = {x = -97.5797576904297, y = 6496.11376953125, z = 30.4909038543701},
+		Pos   = { x = -223.12, y = -1333.46, z = 29.89 },
 		Size  = {x = 1.5, y = 1.5, z = 1.0},
 		Color = {r = 204, g = 204, b = 0},
 		Type  = 1
 	},
 
 	Craft = {
-		Pos   = {x = -323.140, y = -129.882, z = 37.999},
+		Pos   = { x = -196.59, y = -1318.49, z = 30.07 },
 		Size  = {x = 1.5, y = 1.5, z = 1.0},
 		Color = {r = 204, g = 204, b = 0},
 		Type  = 1
 	},
 
 	VehicleSpawnPoint = {
-		Pos   = {x = -366.354, y = -110.766, z = 37.696},
+		Pos   = { x = -183.02, y = -1319.55, z = 30.28 },
 		Size  = {x = 1.5, y = 1.5, z = 1.0},
 		Type  = -1
 	},
 
 	VehicleDeleter = {
-		Pos   = {x = -386.899, y = -105.675, z = 37.683},
+		Pos   = { x = -190.33, y = -1287.31, z = 30.28 },
 		Size  = {x = 3.0, y = 3.0, z = 1.0},
 		Color = {r = 204, g = 204, b = 0},
 		Type  = 1
 	},
 
 	VehicleDelivery = {
-		Pos   = {x = -382.925, y = -133.748, z = 37.685},
+		Pos   = { x = -190.33, y = -1270.42, z = 30.27 },
 		Size  = {x = 20.0, y = 20.0, z = 3.0},
 		Color = {r = 204, g = 204, b = 0},
 		Type  = -1

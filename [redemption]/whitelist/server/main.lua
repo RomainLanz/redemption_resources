@@ -1,13 +1,16 @@
 WhiteList = {}
 
 function loadWhiteList ()
-  local results = MySQL.Sync.fetchAll('SELECT * FROM whitelist')
-
-  for i=1, #results, 1 do
-    table.insert(WhiteList, tostring(results[i].identifier))
-  end
-
-  print('Whitelist rechargée !')
+  MySQL.Async.fetchAll(
+    'SELECT * FROM whitelist',
+    {},
+    function (identifiers)
+      for i=1, #identifiers, 1 do
+        print(identifiers[i].identifier)
+        table.insert(WhiteList, tostring(identifiers[i].identifier))
+      end
+    end
+  )
 end
 
 MySQL.ready(function ()

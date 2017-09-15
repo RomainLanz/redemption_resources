@@ -7,6 +7,7 @@ if Config.MaxInService ~= -1 then
 end
 
 TriggerEvent('esx_phone:registerNumber', 'police', _U('alert_police'), true, true)
+TriggerEvent('esx_society:registerSociety', 'police', 'Police', 'society_police', 'society_police', 'society_police', {type = 'public'})
 
 RegisterServerEvent('esx_policejob:giveWeapon')
 AddEventHandler('esx_policejob:giveWeapon', function(weapon, ammo)
@@ -80,7 +81,7 @@ AddEventHandler('esx_policejob:getStockItem', function(itemName, count)
 
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_policestock', function(inventory)
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_police', function(inventory)
 
 		local item = inventory.getItem(itemName)
 
@@ -102,7 +103,7 @@ AddEventHandler('esx_policejob:putStockItems', function(itemName, count)
 
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_policestock', function(inventory)
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_police', function(inventory)
 
 		local item = inventory.getItem(itemName)
 
@@ -121,52 +122,47 @@ end)
 
 ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, cb, target)
 
-	if Config.EnableGCIdentity then
+	if Config.EnableESXIdentity  then
 	
 		local xPlayer = ESX.GetPlayerFromId(target)
 		
 		local identifier = GetPlayerIdentifiers(target)[1]
 		
-		local result = MySQL.Sync.fetchAll("SELECT firstname, lastname, sex, dateofbirth, height FROM users WHERE identifier = @identifier", {
+		local result = MySQL.Sync.fetchAll("SELECT * FROM characters  WHERE identifier = @identifier", {
 			['@identifier'] = identifier
 		})
 			
 		local user 			= result[1]
 		local firstname 		= user['firstname']
 		local lastname  		= user['lastname']
-		local sex           		= user['sex']
-		local dob           		= tostring(user['dateofbirth'])
-		local heightInit    		= user['height']	
-		local heightFeet 		= tonumber(string.format("%.0f",heightInit / 12, 0))
-		local heightInches 		= heightInit % 12
-		local height 	   		= heightFeet .. "\' " .. heightInches .. "\""
+		local dob           		= user['dateofbirth']
 		
 		local data = {
-			name       	= GetPlayerName(target),
 			job        	= xPlayer.job,
 			inventory  	= xPlayer.inventory,
 			accounts   	= xPlayer.accounts,
 			weapons    	= xPlayer.loadout,
 			firstname  	= firstname,
 			lastname   	= lastname,
-			sex         	= sex,
-			dob         	= dob,
-			height      	= height
+			dob         = dob,
 		}
 		
-		TriggerEvent('esx_status:getStatus', _source, 'drunk', function(status)
+		TriggerEvent('esx_status:getStatus', source, 'drunk', function(status)
 
 			if status ~= nil then
-				data.drunk = status.getPercent()
+				data.drunk = math.floor(status.percent)
 			end
 			
 		end)
 
-		TriggerEvent('esx_license:getLicenses', _source, function(licenses)
-			data.licenses = licenses
-		end)
-
-		cb(data)
+		if Config.EnableLicenses then
+			TriggerEvent('esx_license:getLicenses', _source, function(licenses)
+				data.licenses = licenses
+				cb(data)
+			end)
+		else
+			cb(data)
+		end
 	
 	else
 	
@@ -214,7 +210,7 @@ end)
 
 ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb, plate)
 
-	if Config.EnableGCIdentity then
+	if Config.EnableESXIdentity  then
 	
 		MySQL.Async.fetchAll(
 			'SELECT * FROM owned_vehicles',
@@ -237,7 +233,7 @@ ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb,
 				if foundIdentifier ~= nil then
 
 					MySQL.Async.fetchAll(
-						'SELECT * FROM users WHERE identifier = @identifier',
+						'SELECT * FROM characters WHERE identifier = @identifier',
 						{
 							['@identifier'] = foundIdentifier
 						},
@@ -434,7 +430,7 @@ end)
 
 ESX.RegisterServerCallback('esx_policejob:getStockItems', function(source, cb)
 
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_policestock', function(inventory)
+	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_police', function(inventory)
 		cb(inventory.items)
 	end)
 

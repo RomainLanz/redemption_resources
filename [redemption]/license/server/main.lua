@@ -15,7 +15,6 @@ MySQL.ready(function ()
   loadLicenses()
 end)
 
-
 ESX.RegisterServerCallback('red:getPlayerLicenses', function (source, callback)
   local xPlayer  = ESX.GetPlayerFromId(source)
   local licenses = MySQL.Sync.fetchAll('SELECT * FROM user_licenses WHERE identifier = @identifier', { ['@identifier'] = xPlayer.identifier }) or {}

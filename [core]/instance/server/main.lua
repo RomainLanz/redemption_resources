@@ -23,6 +23,7 @@ function CreateInstance(type, player, data)
 		data    = data
 	}
 
+	TriggerEvent('instance:onCreate', Instances[player])
 	TriggerClientEvent('instance:onCreate', player, Instances[player])
 	TriggerClientEvent('instance:onInstancedPlayersData', -1, GetInstancedPlayers())
 
@@ -40,6 +41,7 @@ function CloseInstance(instance)
 
 		TriggerClientEvent('instance:onInstancedPlayersData', -1, GetInstancedPlayers())
 
+		TriggerEvent('instance:onClose', instance)
 	end
 
 end

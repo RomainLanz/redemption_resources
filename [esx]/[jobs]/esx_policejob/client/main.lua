@@ -50,172 +50,203 @@ end
 function OpenCloakroomMenu()
 
 	local elements = {
-    {label = _U('citizen_wear'), value = 'citizen_wear'},
-    {label = _U('police_wear'), value = 'police_wear'}
-	}
+    {label = _U('citizen_wear'), value = 'citizen_wear'}
+  }
+
+  if PlayerData.job.grade_name == 'recruit' then
+    table.insert(elements, {label = _U('cadet_wear'), value = 'cadet_wear'})
+  end
+
+  if PlayerData.job.grade_name == 'officer' then
+    table.insert(elements, {label = _U('police_wear'), value = 'police_wear'})
+  end
+
+  if PlayerData.job.grade_name == 'sergeant' then
+    table.insert(elements, {label = _U('sergent_wear'), value = 'sergent_wear'})
+  end
+
+  if PlayerData.job.grade_name == 'sergean_chef' then
+    table.insert(elements, {label = _U('sergent_wear'), value = 'sergent_wear'})
+  end
+
+  if PlayerData.job.grade_name == 'lieutenant' then
+    table.insert(elements, {label = _U('lieutenant_wear'), value = 'lieutenant_wear'})
+  end
+
+  if PlayerData.job.grade_name == 'boss' then
+    table.insert(elements, {label = _U('commandant_wear'), value = 'commandant_wear'})
+  end
+
+  table.insert(elements, {label = _U('veste_wear'), value = 'veste_wear'})
+  table.insert(elements, {label = _U('gilet_wear'), value = 'gilet_wear'})
 
 	ESX.UI.Menu.CloseAll()
 
-	if Config.EnableNonFreemodePeds then
-	    table.insert(elements, {label = _U('sheriff_wear'), value = 'sheriff_wear'})
-		table.insert(elements, {label = _U('lieutenant_wear'), value = 'lieutenant_wear'})
-		table.insert(elements, {label = _U('commandant_wear'), value = 'commandant_wear'})
-	end
 
-		ESX.UI.Menu.Open(
+	ESX.UI.Menu.Open(
 			'default', GetCurrentResourceName(), 'cloakroom',
 			{
 				title    = _U('cloakroom'),
 				align    = 'left',
 				elements = elements,
-				},
+			},
 
-				function(data, menu)
+			function(data, menu)
 
 			menu.close()
 
-			--Taken from SuperCoolNinja
-			if data.current.value == 'citizen_wear'  then
+			if data.current.value == 'citizen_wear' then
+        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+          local model = nil
 
-            ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+       		if skin.sex == 0 then
+            model = GetHashKey("mp_m_freemode_01")
+          else
+            model = GetHashKey("mp_f_freemode_01")
+          end
 
-            if skin.sex == 0 then
+          RequestModel(model)
+          while not HasModelLoaded(model) do
+            RequestModel(model)
+            Citizen.Wait(1)
+          end
 
-                local model = GetHashKey("mp_m_freemode_01")
-                    RequestModel(model)
-                    while not HasModelLoaded(model) do
-                        RequestModel(model)
-                        Citizen.Wait(1)
-                    end
+          SetPlayerModel(PlayerId(), model)
+          SetModelAsNoLongerNeeded(model)
 
-                    SetPlayerModel(PlayerId(), model)
-                    SetModelAsNoLongerNeeded(model)
-                    TriggerEvent('skinchanger:loadSkin', skin)
-            else
-                    local model = GetHashKey("mp_f_freemode_01")
+          TriggerEvent('skinchanger:loadSkin', skin)
+          TriggerEvent('esx:restoreLoadout')
+        end)
+      end
 
-                    RequestModel(model)
-                    while not HasModelLoaded(model) do
-                        RequestModel(model)
-                        Citizen.Wait(1)
-                    end
+      if data.current.value == 'cadet_wear' then
+      	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+      		if skin.sex == 0 then
+      			SetPedComponentVariation(GetPlayerPed(-1), 3, 30, 0, 0)	--Gants
+						SetPedComponentVariation(GetPlayerPed(-1), 4, 35, 0, 0)	--Jean
+						SetPedComponentVariation(GetPlayerPed(-1), 6, 24, 0, 0)	--Chaussure
+						SetPedComponentVariation(GetPlayerPed(-1), 8, 58, 0, 0)	--mattraque
+						SetPedComponentVariation(GetPlayerPed(-1), 11, 55, 0, 0)--Veste
+						SetPedComponentVariation(GetPlayerPed(-1), 10, 8, 0, 0) --Grade
+						SetPedComponentVariation(GetPlayerPed(-1), 8, 59, 0, 0)	--GiletJaune
+            SetPedComponentVariation(GetPlayerPed(-1), 5, 0, 0, 2)  --Bag
+						SetPedPropIndex(GetPlayerPed(-1), 2, 2, 0, 1) 					--Oreillete
+						SetPedPropIndex(GetPlayerPed(-1), 6, 3, 0, 1) 					--Montre
 
-                    SetPlayerModel(PlayerId(), model)
-                    SetModelAsNoLongerNeeded(model)
-                    TriggerEvent('skinchanger:loadSkin', skin)
-                    end
+            ClearPedProp(GetPlayerPed(-1),  0)  -- Helmet
+      		else
+      			TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
+      		end
+      	end)
+      end
 
-                end)
-            end
+      if data.current.value == 'police_wear' then
+      	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+      		if skin.sex == 0 then
+      			SetPedComponentVariation(GetPlayerPed(-1), 3, 30, 0, 0)--Gants
+						SetPedComponentVariation(GetPlayerPed(-1), 4, 35, 0, 0)--Jean
+						SetPedComponentVariation(GetPlayerPed(-1), 6, 24, 0, 0)--Chaussure
+						SetPedComponentVariation(GetPlayerPed(-1), 8, 58, 0, 0)--mattraque
+						SetPedComponentVariation(GetPlayerPed(-1), 11, 55, 0, 0)--Veste
+						SetPedComponentVariation(GetPlayerPed(-1), 10, 8, 0, 0)--Grade
+            SetPedComponentVariation(GetPlayerPed(-1), 5, 0, 0, 2)  --Bag
+						SetPedPropIndex(GetPlayerPed(-1), 2, 2, 0, 1)--Oreillete
+						SetPedPropIndex(GetPlayerPed(-1), 6, 3, 0, 1)--Montre
 
-			if data.current.value == 'police_wear' then
-
-				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-
-					if skin.sex == 0 then
-						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
+            ClearPedProp(GetPlayerPed(-1),  0)  -- Helmet
 					else
 						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
 					end
+      	end)
+      end
 
-				end)
+      if data.current.value == 'sergent_wear' then --Ajout de tenue par grades
+      	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+      		if skin.sex == 0 then
+      			SetPedComponentVariation(GetPlayerPed(-1), 3, 30, 0, 0)--Gants
+						SetPedComponentVariation(GetPlayerPed(-1), 4, 35, 0, 0)--Jean
+						SetPedComponentVariation(GetPlayerPed(-1), 6, 24, 0, 0)--Chaussure
+						SetPedComponentVariation(GetPlayerPed(-1), 8, 58, 0, 0)--mattraque
+						SetPedComponentVariation(GetPlayerPed(-1), 11, 55, 0, 0)--Veste
+						SetPedComponentVariation(GetPlayerPed(-1), 10, 8, 1, 0)--Grade
+            SetPedComponentVariation(GetPlayerPed(-1), 5, 0, 0, 2)  --Bag
+						SetPedPropIndex(GetPlayerPed(-1), 2, 2, 0, 1)--Oreillete
+						SetPedPropIndex(GetPlayerPed(-1), 6, 3, 0, 1)--Montre
 
-			end
+            ClearPedProp(GetPlayerPed(-1),  0)  -- Helmet
+      		else
+      			TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
+      		end
+      	end)
+      end
 
-			if data.current.value == 'sheriff_wear' then
+      if data.current.value == 'lieutenant_wear' then --Ajout de tenue par grades
+      	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+      		if skin.sex == 0 then
+						SetPedComponentVariation(GetPlayerPed(-1), 3, 30, 0, 0)--Gants
+						SetPedComponentVariation(GetPlayerPed(-1), 4, 35, 0, 0)--Jean
+						SetPedComponentVariation(GetPlayerPed(-1), 6, 24, 0, 0)--Chaussure
+						SetPedComponentVariation(GetPlayerPed(-1), 8, 58, 0, 0)--mattraque
+						SetPedComponentVariation(GetPlayerPed(-1), 11, 55, 0, 0)--Veste
+						SetPedComponentVariation(GetPlayerPed(-1), 10, 8, 2, 0)--Grade
+            SetPedComponentVariation(GetPlayerPed(-1), 5, 0, 0, 2)  --Bag
+						SetPedPropIndex(GetPlayerPed(-1), 2, 2, 0, 1)--Oreillete
+						SetPedPropIndex(GetPlayerPed(-1), 6, 3, 0, 1)--Montre§
 
-				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-
-				if skin.sex == 0 then
-
-					local model = GetHashKey("s_m_y_sheriff_01")
-
-					RequestModel(model)
-					while not HasModelLoaded(model) do
-						RequestModel(model)
-						Citizen.Wait(1)
+            ClearPedProp(GetPlayerPed(-1),  0)  -- Helmet
+					else
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
 					end
+      	end)
+      end
 
-					SetPlayerModel(PlayerId(), model)
-					SetModelAsNoLongerNeeded(model)
-			else
-					local model = GetHashKey("s_f_y_sheriff_01")
+      if data.current.value == 'commandant_wear' then
+      	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+					if skin.sex == 0 then
+						SetPedComponentVariation(GetPlayerPed(-1), 3, 30, 0, 0)--Gants
+						SetPedComponentVariation(GetPlayerPed(-1), 4, 35, 0, 0)--Jean
+						SetPedComponentVariation(GetPlayerPed(-1), 6, 24, 0, 0)--Chaussure
+						SetPedComponentVariation(GetPlayerPed(-1), 8, 58, 0, 0)--mattraque
+						SetPedComponentVariation(GetPlayerPed(-1), 11, 55, 0, 0)--Veste
+						SetPedComponentVariation(GetPlayerPed(-1), 10, 8, 3, 0)--Grade
+            SetPedComponentVariation(GetPlayerPed(-1), 5, 0, 0, 2)  --Bag
+						SetPedPropIndex(GetPlayerPed(-1), 2, 2, 0, 1)--Oreillete
+						SetPedPropIndex(GetPlayerPed(-1), 6, 3, 0, 1)--Montre
 
-					RequestModel(model)
-					while not HasModelLoaded(model) do
-						RequestModel(model)
-						Citizen.Wait(1)
-					end
+            ClearPedProp(GetPlayerPed(-1),  0)  -- Helmet
+					else
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
+					end      		
+        end)
+      end
 
-					SetPlayerModel(PlayerId(), model)
-					SetModelAsNoLongerNeeded(model)
-					end
+      if data.current.value == 'veste_wear' then
+      	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function()
+      		SetPedComponentVariation(GetPlayerPed(-1), 9, 10, 1, 2)--Gilet
+      		local playerPed = GetPlayerPed(-1)
+      		SetPedArmour(playerPed, 100)
+      		ClearPedBloodDamage(playerPed)
+      		ResetPedVisibleDamage(playerPed)
+      		ClearPedLastWeaponDamage(playerPed)
+      	end)
+      end
 
-				end)
-			end
+      if data.current.value == 'veste_wear' then
+      		ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function()
+      			SetPedComponentVariation(GetPlayerPed(-1), 9, 10, 1, 2)--Gilet
+      		end)
+      end
 
-			if data.current.value == 'lieutenant_wear' then
-
-				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-
-				if skin.sex == 0 then
-					local model = GetHashKey("s_m_y_swat_01")
-
-					RequestModel(model)
-					while not HasModelLoaded(model) do
-						RequestModel(model)
-						Citizen.Wait(1)
-					end
-
-					SetPlayerModel(PlayerId(), model)
-					SetModelAsNoLongerNeeded(model)
-			else
-					local model = GetHashKey("s_m_y_swat_01")
-
-					RequestModel(model)
-					while not HasModelLoaded(model) do
-						RequestModel(model)
-						Citizen.Wait(1)
-					end
-
-					SetPlayerModel(PlayerId(), model)
-					SetModelAsNoLongerNeeded(model)
-					end
-
-				end)
-			end
-
-			if data.current.value == 'commandant_wear' then
-
-				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-
-				if skin.sex == 0 then
-					local model = GetHashKey("s_m_y_swat_01")
-
-					RequestModel(model)
-					while not HasModelLoaded(model) do
-						RequestModel(model)
-						Citizen.Wait(1)
-					end
-
-					SetPlayerModel(PlayerId(), model)
-					SetModelAsNoLongerNeeded(model)
-			else
-					local model = GetHashKey("s_m_y_swat_01")
-
-					RequestModel(model)
-					while not HasModelLoaded(model) do
-						RequestModel(model)
-						Citizen.Wait(1)
-					end
-
-					SetPlayerModel(PlayerId(), model)
-					SetModelAsNoLongerNeeded(model)
-					end
-
-				end)
-			end
-
+      if data.current.value == 'gilet_wear' then
+      	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function()
+      		SetPedComponentVariation(GetPlayerPed(-1), 9, 14, 1, 2)--Sans Gilet
+      		local playerPed = GetPlayerPed(-1)
+      		SetPedArmour(playerPed, 0)
+          ClearPedBloodDamage(playerPed)
+          ResetPedVisibleDamage(playerPed)
+          ClearPedLastWeaponDamage(playerPed)
+      	end)
+      end
 
 			CurrentAction     = 'menu_cloakroom'
 			CurrentActionMsg  = _U('open_cloackroom')
@@ -472,7 +503,7 @@ function OpenPoliceActionsMenu()
 		  	{label = _U('citizen_interaction'), value = 'citizen_interaction'},
 		  	{label = _U('vehicle_interaction'), value = 'vehicle_interaction'},
 		  	{label = _U('object_spawner'),      value = 'object_spawner'},
-			{label = _U('animations'),          value = 'animations'},
+			-- {label = _U('animations'),          value = 'animations'},
 			},
 		},
 		function(data, menu)
@@ -671,14 +702,6 @@ function OpenPoliceActionsMenu()
 					    {label = _U('stand_by_3'),    value = 'standbycop3'},
 					    {label = _U('crowd_control'), value = 'crowdcontrol'},
 					    {label = _U('doinvestigate'), value = 'investigate'},
-					    {label = _U('docrouch'),      value = 'crouch'},
-					    {label = _U('hang_out'),      value = 'hangout'},
-					    {label = _U('doleaning'),     value = 'leaning'},
-					    {label = _U('dosmoking'),     value = 'smoking'},
-					    {label = _U('dodrinking'),    value = 'drinking'},
-					    {label = _U('domobile'),      value = 'mobile'},
-					    {label = _U('aacoffe'),       value = 'coffe'},
-					    {label = _U('push_ups'),      value = 'pushups'},
 						},
 					},
                                         function(data2, menu2)
@@ -899,7 +922,7 @@ end
 
 function OpenIdentityCardMenu(player)
 
-	if Config.EnableGCIdentity then
+	if Config.EnableESXIdentity then
 
 		ESX.TriggerServerCallback('esx_policejob:getOtherPlayerData', function(data)
 
@@ -916,42 +939,16 @@ function OpenIdentityCardMenu(player)
 				jobLabel = 'Job : ' .. data.job.label
 			end
 
-			if data.sex ~= nil then
-				if (data.sex == 'm') or (data.sex == 'M') then
-					sex = 'Male'
-				else
-					sex = 'Female'
-				end				
-				sexLabel = 'Sex : ' .. sex
-			else
-				sexLabel = 'Sex : Unknown'
-			end
-			
 			if data.dob ~= nil then
 				dobLabel = 'DOB : ' .. data.dob
 			else
 				dobLabel = 'DOB : Unknown'
 			end
 			
-			if data.height ~= nil then
-				heightLabel = 'Height : ' .. data.height
-			else
-				heightLabel = 'Height : Unknown'
-			end
-			
-			if data.name ~= nil then
-				idLabel = 'ID : ' .. data.name
-			else
-				idLabel = 'ID : Unknown'
-			end
-				
 			local elements = {
 				{label = _U('name') .. data.firstname .. " " .. data.lastname, value = nil},
-				{label = sexLabel,              value = nil},
 				{label = dobLabel,              value = nil},
-				{label = heightLabel,           value = nil},
 				{label = jobLabel,              value = nil},
-				{label = idLabel,				value = nil},
 			}
 
 			if data.drunk ~= nil then

@@ -27,7 +27,7 @@ $(document).ready(function () {
         event.preventDefault()
         let form = event.target
         let data = {}
-        let attrs = ['firstname', 'lastname', 'dateofbirth', 'sex', 'height']
+        let attrs = ['firstname', 'lastname', 'dateofbirth']
         attrs.forEach(e => {
             data[e] = form.elements[e].value
         })

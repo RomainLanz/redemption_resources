@@ -5,8 +5,8 @@ Locales['fr'] = {
 		['citizen_wear'] 							= 'tenue civile',
 		['job_wear'] 									= 'tenue de travail',
 		['bank_deposit'] 							= 'une caution de ~g~',
-		['bank_deposit_g'] 						= 'une caution de ~g~$',
-		['bank_deposit2'] 						= '$ ~s~vous a été rendue suite à votre évanouissment.',
+		['bank_deposit_r'] 						= 'une caution de ~g~$',
+		['bank_deposit2'] 						= '$ ~s~ vous a été rendue suite à votre évanouissment.',
 		['bank_nodeposit'] 						= "vous n'aviez pas de caution",
 		['foot_work'] 								= 'vous devez être à pied pour pouvoir travailler.',
 		['next_point'] 								= 'rendez-vous à la prochaine étape après avoir complété celle-ci.',
@@ -14,8 +14,8 @@ Locales['fr'] = {
 		['not_your_vehicle'] 					= "ce n'est pas votre véhicule ou vous devez être conducteur.",
 		['in_vehicle'] 								= 'vous devez être dans un véhicule.',
 		['wrong_point'] 							= "vous n'êtes pas au bon point de livraison.",
-		['max_limit'] 								= 'vous avez le maximum de ',
-		['not_enough'] 								= "vous n'avez plus assez de ",
+		['max_limit'] 								= 'vous avez le maximum de: ',
+		['not_enough'] 								= "vous n'avez plus assez de",
 		['not_enough2'] 							= ' pour continuer cette tâche.',
 		['caution_taken'] 						= ' ~s~vous a été prélevée.',
 		['caution_returned'] 					= ' ~s~vous a été rendue.',
@@ -87,7 +87,7 @@ Locales['fr'] = {
 		['m_melt_button'] 						= 'appuyez sur ~INPUT_PICKUP~ pour fondre les roches.',
 
 	--reporter
-		['reporter_name'] 						= 'CNN',
+		['reporter_name'] 						= 'le Maclerait Libéré',
 		['reporter_garage'] 					= 'appuyez sur ~INPUT_PICKUP~ pour descendre au garage.',
 
 	--slaughterer
@@ -105,7 +105,7 @@ Locales['fr'] = {
 		['s_deliver'] 								= 'appuyez sur ~INPUT_PICKUP~ pour livrer les barquettes de poulet.',
 
 	--Dress Designer
-		['dd_dress_locker'] 					= "Vestiaire - Couturière",
+		['dd_dress_locker'] 					= "Vestiaire - Couturier",
 		['dd_wool'] 									= 'laine',
 		['dd_pickup'] 								= 'appuyez sur ~INPUT_PICKUP~ pour récupérer de la laine.',
 		['dd_fabric'] 								= 'tissu',
