@@ -10,8 +10,9 @@ local Keys = {
   ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-ESX = nil
 local GUI = {}
+
+ESX = nil
 GUI.Time  = 0
 
 Citizen.CreateThread(function()
@@ -33,19 +34,34 @@ Citizen.CreateThread(function ()
   end
 end)
 
-function showMenu ()
+function showGlobalMenu ()
   ESX.UI.Menu.CloseAll()
 
   ESX.UI.Menu.Open(
     'default', GetCurrentResourceName(), 'Redemption',
     {
-      title    = 'Redemption',
-      align = 'left',
-      elements = {
-        { label = 'Animations', value = 'animations' },
+      title     = 'Redemption',
+      align     = 'left',
+      elements  = {
+        { label = 'Téléphone',    value = 'phone' },
+        { label = 'Inventaire',   value = 'inventory' },
+        { label = 'Factures',     value = 'billings' },
+        { label = 'Animations',   value = 'animations' },
       },
     },
     function (data, menu)
+      if data.current.value == 'phone' then
+        ESX.UI.Menu.Open('phone', 'esx_phone', 'main')
+      end
+
+      if data.current.value == 'inventory' then
+        ESX.UI.Menu.Open('default', 'es_extended', 'inventory')
+      end
+
+      if data.current.value == 'billings' then
+        ESX.UI.Menu.Open('default', 'esx_billing', 'billing')
+      end
+
       if data.current.value == 'animations' then
         showAnimationMenu()
       end
@@ -241,7 +257,7 @@ Citizen.CreateThread(function ()
     Wait(0)
 
     if IsControlPressed(0, Keys["F3"]) and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'Redemption') and (GetGameTimer() - GUI.Time) > 150 then
-      showMenu()
+      showGlobalMenu()
       GUI.Time  = GetGameTimer()
     end
 

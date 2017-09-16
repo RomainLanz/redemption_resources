@@ -165,6 +165,7 @@ function OpenMecanoActionsMenu()
 						if Config.EnablePlayerManagement and PlayerData.job ~= nil and 
 							(PlayerData.job.grade_name == 'boss' or PlayerData.job.grade_name == 'chef' or PlayerData.job.grade_name == 'experimente') then
 							table.insert(elements, {label = 'SlamVan', value = 'slamvan3'})
+							table.insert(elements, {label = 'Bison', value = 'bison'})
 						end
 
 						ESX.UI.Menu.CloseAll()

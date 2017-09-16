@@ -10,13 +10,8 @@ local Keys = {
   ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-ESX                              = nil
 local GUI                        = {}
-GUI.Time                         = 0
-GUI.PhoneIsShowed                = false
-GUI.MessagesIsShowed             = false
-GUI.AddContactIsShowed           = false
-local PhoneData                  = {phoneNumber = 0, contacts = {}}
+local PhoneData                  = { phoneNumber = 0, contacts = {} }
 local RegisteredMessageCallbacks = {}
 local ContactJustAdded           = false
 local CurrentAction              = nil
@@ -24,6 +19,12 @@ local CurrentActionMsg           = ''
 local CurrentActionData          = {}
 local CurrentDispatchRequestId   = -1
 local PhoneNumberSources         = {}
+
+ESX                              = nil
+GUI.Time                         = 0
+GUI.PhoneIsShowed                = false
+GUI.MessagesIsShowed             = false
+GUI.AddContactIsShowed           = false
 
 Citizen.CreateThread(function()
 
@@ -37,6 +38,7 @@ Citizen.CreateThread(function()
 end)
 
 function OpenPhone()
+
   local playerPed = GetPlayerPed(-1)
 
   TriggerServerEvent('esx_phone:reload', PhoneData.phoneNumber)
@@ -55,6 +57,7 @@ function OpenPhone()
   if not IsPedInAnyVehicle(playerPed,  false) then
     TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_STAND_MOBILE", 0, true);
   end
+
 end
 
 function ClosePhone()
@@ -70,6 +73,7 @@ function ClosePhone()
   GUI.PhoneIsShowed = false
 
   ClearPedTasks(playerPed)
+
 end
 
 RegisterNetEvent('esx_phone:loaded')
