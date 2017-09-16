@@ -5,6 +5,7 @@ Locales['fr'] = {
 		['citizen_wear'] 							= 'tenue civile',
 		['job_wear'] 									= 'tenue de travail',
 		['bank_deposit'] 							= 'une caution de ~g~',
+		['bank_deposit_g']						= '$ ~s~',
 		['bank_deposit_r'] 						= 'une caution de ~g~$',
 		['bank_deposit2'] 						= '$ ~s~ vous a été rendue suite à votre évanouissment.',
 		['bank_nodeposit'] 						= "vous n'aviez pas de caution",

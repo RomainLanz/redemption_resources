@@ -53,6 +53,7 @@ function OpenBankActionsMenu()
 		'default', GetCurrentResourceName(), 'bank_actions',
 		{
 			title    = _U('bank'),
+			align 	 = 'left',
 			elements = elements
 		},
 		function(data, menu)

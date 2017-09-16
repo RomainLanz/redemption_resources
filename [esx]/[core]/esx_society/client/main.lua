@@ -74,7 +74,6 @@ function OpenBossMenu(society, close, options)
     'default', GetCurrentResourceName(), 'boss_actions_' .. society,
     {
       title    = 'Patron',
-      align    = 'left',
       elements = elements
     },
     function(data, menu)
@@ -183,7 +182,6 @@ function OpenManageEmployeesMenu(society)
     'default', GetCurrentResourceName(), 'manage_employees_' .. society,
     {
       title    = _U('employee_management'),
-      align    = 'left',
       elements = {
         {label = _U('employee_list'), value = 'employee_list'},
         {label = _U('recruit'),       value = 'recruit'},
@@ -279,7 +277,6 @@ function OpenRecruitMenu(society)
       'default', GetCurrentResourceName(), 'recruit_' .. society,
       {
         title    = _U('recruiting'),
-        align    = 'left',
         elements = elements
       },
       function(data, menu)
@@ -288,7 +285,6 @@ function OpenRecruitMenu(society)
           'default', GetCurrentResourceName(), 'recruit_confirm_' .. society,
           {
             title    = _U('do_you_want_to_recruit', data.current.name),
-            align    = 'left',
             elements = {
               {label = _U('yes'), value = 'yes'},
               {label = _U('no'),  value = 'no'},
@@ -339,7 +335,6 @@ function OpenPromoteMenu(society, employee)
       'default', GetCurrentResourceName(), 'promote_employee_' .. society,
       {
         title    = _U('promote_employee', employee.name),
-        align    = 'left',
         elements = elements
       },
       function(data, menu)
@@ -377,7 +372,6 @@ function OpenManageGradesMenu(society)
       'default', GetCurrentResourceName(), 'manage_grades_' .. society,
       {
         title    = _U('salary_management'),
-        align    = 'left',
         elements = elements
       },
       function(data, menu)
