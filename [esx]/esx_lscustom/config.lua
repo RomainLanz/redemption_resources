@@ -4,9 +4,9 @@ Config.Locale = 'fr'
 
 Config.Zones = {
 	ls1 = {
-		Pos   = { x = -362.7962, y = -132.4005, z = 38.25239},
-		Size  = {x = 3.0, y = 3.0, z = 0.2},
-		Color = {r = 204, g = 204, b = 0},
+		Pos   = { x = -211.52, y = -1323.96, z = 29.88 },
+		Size  = { x = 3.0, y = 3.0, z = 0.2 },
+		Color = { r = 204, g = 204, b = 0 },
 		Marker= 1,
 		Name  = "LS CUSTOM",
 		Hint  = _U('press_custom')

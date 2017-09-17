@@ -408,8 +408,6 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 			end
 		end
 
-		local foundWeapon = false
-
 		for i=1, #self.loadout, 1 do
 			if self.loadout[i].name == weaponName then
 				table.remove(self.loadout, i)
@@ -418,7 +416,7 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 		end
 
 		TriggerClientEvent('esx:removeWeapon', self.source, weaponName)
-		TriggerClientEvent("esx:removeInventoryItem", self.source, {label = weaponLabel}, 1)
+		TriggerClientEvent("esx:removeInventoryItem", self.source, { label = weaponLabel }, 1)
 	end
 
 	return self
