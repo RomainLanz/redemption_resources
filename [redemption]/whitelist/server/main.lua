@@ -6,7 +6,6 @@ function loadWhiteList ()
     {},
     function (identifiers)
       for i=1, #identifiers, 1 do
-        print(identifiers[i].identifier)
         table.insert(WhiteList, tostring(identifiers[i].identifier))
       end
     end

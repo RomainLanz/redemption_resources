@@ -140,9 +140,9 @@ function GetAction(data)
 					for j = 0, 51, 1 do
 						local _label = ''
 						if j == currentMods.modHorns then
-							_label = GetHornName(j) .. ' - '.. _U('installed')
+							_label = GetHornName(j) .. ' - <span style="color:cornflowerblue;">'.. _U('installed' .. '</span>')
 						else
-							_label = GetHornName(j) .. ' - $' .. v.price
+							_label = GetHornName(j) .. ' -  <span style="color:green;">$' .. v.price .. '</span>'
 						end
 						table.insert(elements, {label = _label, modType = k, modNum = j})
 					end
@@ -150,18 +150,18 @@ function GetAction(data)
 					for j = 0, 4, 1 do
 						local _label = ''
 						if j == currentMods.plateIndex then
-							_label = GetPlatesName(j) .. ' - '.. _U('installed')
+							_label = GetPlatesName(j) .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
 						else
-							_label = GetPlatesName(j) .. ' - $' .. v.price
+							_label = GetPlatesName(j) .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
 						end
 						table.insert(elements, {label = _label, modType = k, modNum = j})
 					end
 				elseif v.modType == 22 then -- XENON
 					local _label = ''
 					if currentMods.modXenon then
-						_label = 'Xénon - '.. _U('installed')
+						_label = 'Xénon - <span style="color:cornflowerblue;">' .. _U('installed') .. '</span>'
 					else
-						_label = 'Xénon - $' .. v.price
+						_label = 'Xénon - <span style="color:green;">$' .. v.price .. ' </span>'
 					end
 					table.insert(elements, {label = _label, modType = k, modNum = true})
 				elseif v.modType == 'neonColor' or v.modType == 'tyreSmokeColor' then -- NEON & SMOKE COLOR
@@ -169,7 +169,7 @@ function GetAction(data)
 					for i=1, #neons, 1 do
 						table.insert(elements,
 							{
-								label = neons[i].label,
+								label = '<span style="color:rgb(' .. neons[i].r .. ',' .. neons[i].g .. ',' .. neons[i].b .. ');">' .. neons[i].label .. ' </span>',
 								modType = k,
 								modNum = { neons[i].r, neons[i].g, neons[i].b }
 							}
@@ -179,16 +179,16 @@ function GetAction(data)
 					local colors = GetColors(data.color)
 					for j = 1, #colors, 1 do
 						local _label = ''
-						_label = colors[j].label .. ' - $' .. v.price
+						_label = colors[j].label .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
 						table.insert(elements, {label = _label, modType = k, modNum = colors[j].index})
 					end
 				elseif v.modType == 'windowTint' then -- WINDOWS TINT
 					for j = 1, 5, 1 do
 						local _label = ''
 						if j == currentMods.modHorns then
-							_label = GetWindowName(j) .. ' - '.. _U('installed')
+							_label = GetWindowName(j) .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
 						else
-							_label = GetWindowName(j) .. ' - $' .. v.price
+							_label = GetWindowName(j) .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
 						end
 						table.insert(elements, {label = _label, modType = k, modNum = j})
 					end
@@ -204,9 +204,9 @@ function GetAction(data)
 						if modName ~= nil then
 							local _label = ''
 							if j == currentMods.modFrontWheels then
-								_label = GetLabelText(modName) .. ' - '.. _U('installed')
+								_label = GetLabelText(modName) .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
 							else
-								_label = GetLabelText(modName) .. ' - $' .. v.price 
+								_label = GetLabelText(modName) .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
 							end
 							table.insert(elements, {label = _label, modType = 'modFrontWheels', modNum = j, wheelType = v.wheelType, price = v.price})
 						end
@@ -216,9 +216,9 @@ function GetAction(data)
 					for j = 0, modCount-1, 1 do
 						local _label = ''
 						if j == currentMods[k] then
-							_label = 'Niveau ' .. j .. ' - '.. _U('installed')
+							_label = 'Niveau ' .. j .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
 						else
-							_label = 'Niveau ' .. j .. ' - $' .. v.price
+							_label = 'Niveau ' .. j .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
 						end
 						table.insert(elements, {label = _label, modType = k, modNum = j})
 					end
@@ -229,9 +229,8 @@ function GetAction(data)
 						if modName ~= nil then
 							local _label = ''
 							if j == currentMods[k] then
-								_label = GetLabelText(modName) .. ' - '.. _U('installed')
+								_label = GetLabelText(modName) .. ' -  <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
 							else
-								_label = GetLabelText(modName) .. ' - $' .. v.price
 							end
 							table.insert(elements, {label = _label, modType = k, modNum = j})
 						end
