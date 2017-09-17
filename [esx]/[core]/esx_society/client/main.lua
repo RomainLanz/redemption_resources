@@ -277,6 +277,7 @@ function OpenRecruitMenu(society)
       'default', GetCurrentResourceName(), 'recruit_' .. society,
       {
         title    = _U('recruiting'),
+        align    = 'left',
         elements = elements
       },
       function(data, menu)

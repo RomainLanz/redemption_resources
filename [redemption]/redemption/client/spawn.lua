@@ -5,6 +5,7 @@ end)
 
 AddEventHandler('playerSpawned', function (xPlayer)
   NetworkSetTalkerProximity(15.0)
+  NetworkSetTalkerProximity(15.0)
 
   --load unloaded ipl's
   LoadMpDlcMaps()
@@ -53,7 +54,7 @@ AddEventHandler('playerSpawned', function (xPlayer)
   RequestIpl("id2_14_during1")
   RequestIpl("coronertrash")
   RequestIpl("Coroner_Int_on")
-  RemoveIpl("Coroner_Int_off")
+  RequestIpl("Coroner_Int_off")
   RemoveIpl("bh1_16_doors_shut")
   RequestIpl("refit_unload")
   RequestIpl("post_hiest_unload")

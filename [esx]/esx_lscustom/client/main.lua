@@ -9,7 +9,13 @@ end)
 
 local lsMenuIsShowed = false
 local isInLSMarker	 = false
+local PlayerData	= {}
 local myCar 		 = {}
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+  PlayerData = xPlayer
+end)
 
 RegisterNetEvent('esx_lscustom:installMod')
 AddEventHandler('esx_lscustom:installMod', function()
@@ -134,9 +140,9 @@ function GetAction(data)
 					for j = 0, 51, 1 do
 						local _label = ''
 						if j == currentMods.modHorns then
-							_label = GetHornName(j) .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+							_label = GetHornName(j) .. ' - '.. _U('installed')
 						else
-							_label = GetHornName(j) .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
+							_label = GetHornName(j) .. ' - $' .. v.price
 						end
 						table.insert(elements, {label = _label, modType = k, modNum = j})
 					end
@@ -144,18 +150,18 @@ function GetAction(data)
 					for j = 0, 4, 1 do
 						local _label = ''
 						if j == currentMods.plateIndex then
-							_label = GetPlatesName(j) .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+							_label = GetPlatesName(j) .. ' - '.. _U('installed')
 						else
-							_label = GetPlatesName(j) .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
+							_label = GetPlatesName(j) .. ' - $' .. v.price
 						end
 						table.insert(elements, {label = _label, modType = k, modNum = j})
 					end
 				elseif v.modType == 22 then -- XENON
 					local _label = ''
 					if currentMods.modXenon then
-						_label = 'Xénon - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+						_label = 'Xénon - '.. _U('installed')
 					else
-						_label = 'Xénon - <span style="color:green;">$' .. v.price .. ' </span>'
+						_label = 'Xénon - $' .. v.price
 					end
 					table.insert(elements, {label = _label, modType = k, modNum = true})
 				elseif v.modType == 'neonColor' or v.modType == 'tyreSmokeColor' then -- NEON & SMOKE COLOR
@@ -163,7 +169,7 @@ function GetAction(data)
 					for i=1, #neons, 1 do
 						table.insert(elements,
 							{
-								label = '<span style="color:rgb(' .. neons[i].r .. ',' .. neons[i].g .. ',' .. neons[i].b .. ');">' .. neons[i].label .. ' </span>',
+								label = neons[i].label,
 								modType = k,
 								modNum = { neons[i].r, neons[i].g, neons[i].b }
 							}
@@ -173,16 +179,16 @@ function GetAction(data)
 					local colors = GetColors(data.color)
 					for j = 1, #colors, 1 do
 						local _label = ''
-						_label = colors[j].label .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
+						_label = colors[j].label .. ' - $' .. v.price
 						table.insert(elements, {label = _label, modType = k, modNum = colors[j].index})
 					end
 				elseif v.modType == 'windowTint' then -- WINDOWS TINT
 					for j = 1, 5, 1 do
 						local _label = ''
 						if j == currentMods.modHorns then
-							_label = GetWindowName(j) .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+							_label = GetWindowName(j) .. ' - '.. _U('installed')
 						else
-							_label = GetWindowName(j) .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
+							_label = GetWindowName(j) .. ' - $' .. v.price
 						end
 						table.insert(elements, {label = _label, modType = k, modNum = j})
 					end
@@ -198,9 +204,9 @@ function GetAction(data)
 						if modName ~= nil then
 							local _label = ''
 							if j == currentMods.modFrontWheels then
-								_label = GetLabelText(modName) .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+								_label = GetLabelText(modName) .. ' - '.. _U('installed')
 							else
-								_label = GetLabelText(modName) .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
+								_label = GetLabelText(modName) .. ' - $' .. v.price 
 							end
 							table.insert(elements, {label = _label, modType = 'modFrontWheels', modNum = j, wheelType = v.wheelType, price = v.price})
 						end
@@ -210,9 +216,9 @@ function GetAction(data)
 					for j = 0, modCount-1, 1 do
 						local _label = ''
 						if j == currentMods[k] then
-							_label = 'Niveau ' .. j .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+							_label = 'Niveau ' .. j .. ' - '.. _U('installed')
 						else
-							_label = 'Niveau ' .. j .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
+							_label = 'Niveau ' .. j .. ' - $' .. v.price
 						end
 						table.insert(elements, {label = _label, modType = k, modNum = j})
 					end
@@ -223,9 +229,9 @@ function GetAction(data)
 						if modName ~= nil then
 							local _label = ''
 							if j == currentMods[k] then
-								_label = GetLabelText(modName) .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+								_label = GetLabelText(modName) .. ' - '.. _U('installed')
 							else
-								_label = GetLabelText(modName) .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
+								_label = GetLabelText(modName) .. ' - $' .. v.price
 							end
 							table.insert(elements, {label = _label, modType = k, modNum = j})
 						end
@@ -281,51 +287,54 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Wait(0)
-		local playerPed = GetPlayerPed(-1)
-		if IsPedInAnyVehicle(playerPed, false) then
-			local coords      = GetEntityCoords(GetPlayerPed(-1))
-			local currentZone = nil
-			local zone 		  = nil
-			local lastZone    = nil
 
-			for k,v in pairs(Config.Zones) do
-				if(GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < v.Size.x) then
-					isInLSMarker  = true
+		if PlayerData.job ~= nil and PlayerData.job.name == 'mecano' then
+			local playerPed = GetPlayerPed(-1)
+			if IsPedInAnyVehicle(playerPed, false) then
+				local coords      = GetEntityCoords(GetPlayerPed(-1))
+				local currentZone = nil
+				local zone 		  = nil
+				local lastZone    = nil
 
-					SetTextComponentFormat("STRING")
-					AddTextComponentString(v.Hint)
-					DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+				for k,v in pairs(Config.Zones) do
+					if(GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < v.Size.x) then
+						isInLSMarker  = true
 
-					break
-				else
-					isInLSMarker  = false
+						SetTextComponentFormat("STRING")
+						AddTextComponentString(v.Hint)
+						DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+
+						break
+					else
+						isInLSMarker  = false
+					end
 				end
+
+				if IsControlJustReleased(0, 38) and not lsMenuIsShowed and isInLSMarker then
+					lsMenuIsShowed = true
+
+					local vehicle = GetVehiclePedIsIn(playerPed, false)
+
+					--SetVehicleUndriveable(vehicle, true)
+					FreezeEntityPosition(vehicle, true)
+
+					myCar = ESX.Game.GetVehicleProperties(vehicle)
+
+					ESX.UI.Menu.CloseAll()
+					GetAction({value = 'main'})
+				end
+
+				if isInLSMarker and not hasAlreadyEnteredMarker then
+					hasAlreadyEnteredMarker = true
+				end
+
+				if not isInLSMarker and hasAlreadyEnteredMarker then
+					hasAlreadyEnteredMarker = false
+					--lsMenuIsShowed = false
+					--ESX.UI.Menu.CloseAll()
+				end
+
 			end
-
-			if IsControlJustReleased(0, 38) and not lsMenuIsShowed and isInLSMarker then
-				lsMenuIsShowed = true
-
-				local vehicle = GetVehiclePedIsIn(playerPed, false)
-
-				--SetVehicleUndriveable(vehicle, true)
-				FreezeEntityPosition(vehicle, true)
-
-				myCar = ESX.Game.GetVehicleProperties(vehicle)
-
-				ESX.UI.Menu.CloseAll()
-				GetAction({value = 'main'})
-			end
-
-			if isInLSMarker and not hasAlreadyEnteredMarker then
-				hasAlreadyEnteredMarker = true
-			end
-
-			if not isInLSMarker and hasAlreadyEnteredMarker then
-				hasAlreadyEnteredMarker = false
-				--lsMenuIsShowed = false
-				--ESX.UI.Menu.CloseAll()
-			end
-
 		end
 	end
 end)
