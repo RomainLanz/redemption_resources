@@ -292,7 +292,7 @@ function OpenAmbulanceActionsMenu()
 	}
 
 	if Config.EnablePlayerManagement and PlayerData.job.grade_name == 'boss' then
-  	table.insert(elements, {label = 'Action Patron', value = 'boss_actions'})
+  	table.insert(elements, {label = _U('boss_actions'), value = 'boss_actions'})
 	end
 
 	ESX.UI.Menu.CloseAll()
@@ -301,6 +301,7 @@ function OpenAmbulanceActionsMenu()
 		'default', GetCurrentResourceName(), 'ambulance_actions',
 		{
 			title    = _U('ambulance'),
+			align	   = 'left',
 			elements = elements
 		},
 		function(data, menu)
@@ -337,6 +338,7 @@ function OpenMobileAmbulanceActionsMenu()
 		'default', GetCurrentResourceName(), 'mobile_ambulance_actions',
 		{
 			title    = _U('ambulance'),
+			align    = 'left',
 			elements = {
 				{label = _U('ems_menu'), value = 'citizen_interaction'},
 			}
@@ -349,6 +351,7 @@ function OpenMobileAmbulanceActionsMenu()
 					'default', GetCurrentResourceName(), 'citizen_interaction',
 					{
 						title    = _U('ems_menu_title'),
+						align    = 'left',
 						elements = {
 					  	{label = _U('ems_menu_revive'),             value = 'revive'},
 					  	{label = _U('ems_menu_putincar'), value = 'put_in_vehicle'},
@@ -765,7 +768,7 @@ Citizen.CreateThread(function()
   SetBlipSprite (blip, 61)
   SetBlipDisplay(blip, 4)
   SetBlipScale  (blip, 1.2)
-  SetBlipColour (blip, 2)
+  SetBlipColor  (blip, 2)
   SetBlipAsShortRange(blip, true)
 
 	BeginTextCommandSetBlipName("STRING")
@@ -846,12 +849,13 @@ Citizen.CreateThread(function()
 				end
 
 				if CurrentAction == 'delete_vehicle' then
-					ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
 
 					if Config.EnableSocietyOwnedVehicles then
 						local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
 						TriggerServerEvent('esx_society:putVehicleInGarage', 'ambulance', vehicleProps)
 					end
+
+					ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
 				end
 
 				CurrentAction = nil
@@ -873,7 +877,7 @@ end)
 Citizen.CreateThread(function()
   LoadMpDlcMaps()
   EnableMpDlcMaps(true)
-  RequestIpl('Coroner_Int_on') -- Morgue
+  RequestIpl('Coroner_Int_on')
 end)
 
 -- String string

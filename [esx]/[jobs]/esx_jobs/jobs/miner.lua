@@ -34,6 +34,7 @@ Config.Jobs.miner = {
 			Sprite= 216,
 			Name  = _U('m_rock'),
 			Type  = "work",
+			Animation = { category: 'amb@world_human_gardener_plant' },
 			Item  = {
 				{
 					name   = _U('m_rock'),
@@ -134,7 +135,7 @@ Config.Jobs.miner = {
 			Type  = "vehspawner",
 			Spawner = 1,
 			Hint  = _U('spawn_veh_button'),
-			Caution = 2000,
+			Caution = 500,
 			GPS = {x = 2962.4, y = 2746.2, z = 42.398}
 		},
 
@@ -219,7 +220,7 @@ Config.Jobs.miner = {
 		},
 
 		GoldDelivery = {
-			Pos   = {x = 261.487, y = 207.354, z = 109.287},
+			Pos   = {x = 253.519, y = 221.007, z = 105.286},
 			Color = {r = 204, g = 204, b = 0},
 			Size  = {x = 5.0, y = 5.0, z = 3.0},
 			Color = {r = 204, g = 204, b = 0},

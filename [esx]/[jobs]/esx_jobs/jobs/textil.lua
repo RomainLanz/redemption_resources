@@ -139,7 +139,7 @@ Config.Jobs.textil = {
 			Type  = "vehdelete",
 			Hint  = _U('return_vh_button'),
 			Spawner = 1,
-			Caution = 2000,
+			Caution = 500,
 			GPS = 0,
 			Teleport = 0
 		},

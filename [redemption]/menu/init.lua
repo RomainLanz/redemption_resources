@@ -44,8 +44,8 @@ function showGlobalMenu ()
       align     = 'left',
       elements  = {
         { label = 'Téléphone',    value = 'phone' },
-        { label = 'Inventaire',   value = 'inventory' },
-        { label = 'Factures',     value = 'billings' },
+        -- { label = 'Inventaire',   value = 'inventory' },
+        -- { label = 'Factures',     value = 'billings' },
         { label = 'Animations',   value = 'animations' },
       },
     },

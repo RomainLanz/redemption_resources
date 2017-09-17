@@ -31,7 +31,7 @@ function OpenShopMenu(zone)
 		local item = Config.Zones[zone].Items[i]
 
 		table.insert(elements, {
-			label     = item.label .. ' - $' .. item.price,
+			label     = item.label .. ' - <span style="color:green;">$' .. item.price .. ' </span>',
 			realLabel = item.label,
 			value     = item.name,
 			price     = item.price

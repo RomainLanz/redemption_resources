@@ -2,10 +2,10 @@ Citizen.CreateThread(function ()
 
   TriggerEvent('es:setDefaultSettings', {
     pvpEnabled = true,
-    debugInformation = true,
+    debugInformation = false,
     startingCash = 500,
     nativeMoneySystem = false,
-    enableLogging = true,
+    enableLogging = false,
   })
 
 end)

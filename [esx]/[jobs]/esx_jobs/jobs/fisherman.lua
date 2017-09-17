@@ -110,7 +110,7 @@ Config.Jobs.fisherman = {
 			Type  = "vehspawner",
 			Spawner = 1,
 			Hint  = _U('spawn_veh_button'),
-			Caution = 2000,
+			Caution = 500,
 			GPS = {x = 3867.44, y = 4463.62, z = 1.72386}
 		},
 

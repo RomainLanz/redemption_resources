@@ -1,18 +1,18 @@
-Config                           = {}
-Config.DrawDistance              = 100.0
-Config.MarkerColor               = {r = 102, g = 0, b = 102}
-Config.RespawnDelayAfterRPDeath  = 4 * 60 * 1000
-Config.MenuRespawnToHospitalDelay= 1 * 60 * 1000
-Config.RemoveWeaponsAfterRPDeath = true
-Config.RemoveCashAfterRPDeath    = true
-Config.RemoveItemsAfterRPDeath   = true
-Config.EnablePlayerManagement    = false
+Config                           	= {}
+Config.DrawDistance              	= 100.0
+Config.MarkerColor               	= {r = 102, g = 0, b = 102}
+Config.RespawnDelayAfterRPDeath  	= 4 * 60 * 1000
+Config.MenuRespawnToHospitalDelay	= 1 * 60 * 1000
+Config.RemoveWeaponsAfterRPDeath 	= true
+Config.RemoveCashAfterRPDeath    	= true
+Config.RemoveItemsAfterRPDeath   	= true
+Config.EnablePlayerManagement    	= true
 Config.EnableSocietyOwnedVehicles = false
-Config.ShowDeathTimer						 = true
-Config.EarlyRespawn 						 = false
-Config.EarlyRespawnFine			 		= true
-Config.EarlyRespawnFineAmount	 = 1000
-Config.Locale                   = 'fr'
+Config.ShowDeathTimer						 	= true
+Config.EarlyRespawn 						 	= false
+Config.EarlyRespawnFine			 			= false
+Config.EarlyRespawnFineAmount	 		= 1000
+Config.Locale                   	= 'fr'
 
 Config.Zones = {
 
