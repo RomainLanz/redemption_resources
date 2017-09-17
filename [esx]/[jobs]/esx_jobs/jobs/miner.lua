@@ -34,7 +34,6 @@ Config.Jobs.miner = {
 			Sprite= 216,
 			Name  = _U('m_rock'),
 			Type  = "work",
-			Animation = { category: 'amb@world_human_gardener_plant' },
 			Item  = {
 				{
 					name   = _U('m_rock'),
