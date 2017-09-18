@@ -113,7 +113,7 @@ Config.Jobs.textil = {
 			Type  = "vehspawner",
 			Spawner = 1,
 			Hint  = _U('spawn_veh_button'),
-			Caution = 2000,
+			Caution = 500,
 			GPS = {x = 1978.92407226563, y = 5171.70166015625, z = 46.6391181945801}
 		},
 
