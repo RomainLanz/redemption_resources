@@ -19,11 +19,13 @@ Config.Zones = {
 	ShopInside = {
 		Pos   = { x = -31.60, y = -1091.01, z = 25.42 },
 		Size  = {x = 1.5, y = 1.5, z = 1.0},
+		Heading = -20.0,
 		Type  = -1
 	},
 
 	ShopOutside = {
 		Pos   = {x = -28.637, y = -1085.691, z = 25.565},
+		Heading = -20.0,
 		Size  = {x = 1.5, y = 1.5, z = 1.0},
 		Type  = -1
 	},
