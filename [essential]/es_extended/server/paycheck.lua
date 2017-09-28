@@ -14,8 +14,12 @@ ESX.StartPayCheck = function()
         if xPlayer.job.grade_name == 'interim' then
           TriggerClientEvent('esx:showNotification', xPlayer.source, _U('rec_help') .. '~g~$' .. xPlayer.job.grade_salary)
         else
+          TriggerEvent('esx_addonaccount:getSharedAccount', xPlayer.job.account, function(account)
+            account.removeMoney(xPlayer.job.grade_salary)
+          end)
+
           TriggerClientEvent('esx:showNotification', xPlayer.source, _U('rec_salary') .. '~g~$' .. xPlayer.job.grade_salary)
-        end  
+        end
       end
 
     end
