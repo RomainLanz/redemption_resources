@@ -216,7 +216,7 @@ function OpenCloakroomMenu()
             ClearPedProp(GetPlayerPed(-1),  0)  -- Helmet
 					else
 						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
-					end      		
+					end
         end)
       end
 
@@ -412,10 +412,59 @@ function OpenVehicleSpawnerMenu(station, partNum)
 
 		local elements = {}
 
-		for i=1, #Config.PoliceStations[station].AuthorizedVehicles, 1 do
-			local vehicle = Config.PoliceStations[station].AuthorizedVehicles[i]
-			table.insert(elements, {label = vehicle.label, value = vehicle.name})
-		end
+		-- for i=1, #Config.PoliceStations[station].AuthorizedVehicles, 1 do
+		--	local vehicle = Config.PoliceStations[station].AuthorizedVehicles[i]
+	--		table.insert(elements, {label = vehicle.label, value = vehicle.name})
+		--end
+
+    table.insert(elements, { label = 'Vélo', value = 'fixter' })
+    table.insert(elements, { label = 'Cruiser', value = 'police' })
+    table.insert(elements, { label = 'Sheriff Cruiser', value = 'sheriff' })
+
+    if PlayerData.job.grade_name == 'officer' then
+      table.insert(elements, { label = 'Interceptor', value = 'police3'})
+    end
+
+    if PlayerData.job.grade_name == 'sergeant' then
+      table.insert(elements, { label = 'Sheriff SUV', value = 'sheriff2'})
+      table.insert(elements, { label = 'Interceptor', value = 'police3'})
+      table.insert(elements, { label = 'Buffalo', value = 'police2'})
+    end
+
+    if PlayerData.job.grade_name == 'sergean_chef' then
+      table.insert(elements, { label = 'Sheriff SUV', value = 'sheriff2'})
+      table.insert(elements, { label = 'Interceptor', value = 'police3'})
+      table.insert(elements, { label = 'Buffalo', value = 'police2'})
+      table.insert(elements, { label = 'Moto', value = 'policeb'})
+      table.insert(elements, { label = 'Bus pénitentiaire', value = 'pbus'})
+      table.insert(elements, { label = 'Bus de transport', value = 'policet'})
+      table.insert(elements, { label = 'Antiémeute', value = 'riot'})
+    end
+
+    if PlayerData.job.grade_name == 'lieutenant' then
+      table.insert(elements, { label = 'Sheriff SUV', value = 'sheriff2'})
+      table.insert(elements, { label = 'Interceptor', value = 'police3'})
+      table.insert(elements, { label = 'Buffalo', value = 'police2'})
+      table.insert(elements, { label = 'Moto', value = 'policeb'})
+      table.insert(elements, { label = 'Bus pénitentiaire', value = 'pbus'})
+      table.insert(elements, { label = 'Bus de transport', value = 'policet'})
+      table.insert(elements, { label = 'Antiémeute', value = 'riot'})
+      table.insert(elements, { label = 'FBI', value = 'fbi'})
+      table.insert(elements, { label = 'FBI SUV', value = 'fbi2'})
+    end
+
+    if PlayerData.job.grade_name == 'boss' then
+      table.insert(elements, { label = 'Sheriff SUV', value = 'sheriff2'})
+      table.insert(elements, { label = 'Interceptor', value = 'police3'})
+      table.insert(elements, { label = 'Buffalo', value = 'police2'})
+      table.insert(elements, { label = 'Moto', value = 'policeb'})
+      table.insert(elements, { label = 'Bus pénitentiaire', value = 'pbus'})
+      table.insert(elements, { label = 'Bus de transport', value = 'policet'})
+      table.insert(elements, { label = 'Antiémeute', value = 'riot'})
+      table.insert(elements, { label = 'FBI', value = 'fbi'})
+      table.insert(elements, { label = 'FBI SUV', value = 'fbi2'})
+      table.insert(elements, { label = 'Voiture Banalisée ', value = 'police4'})
+    end
 
 		ESX.UI.Menu.Open(
 			'default', GetCurrentResourceName(), 'vehicle_spawner',
@@ -439,8 +488,8 @@ function OpenVehicleSpawnerMenu(station, partNum)
 					if Config.MaxInService == -1 then
 
 						ESX.Game.SpawnVehicle(model, {
-							x = vehicles[partNum].SpawnPoint.x, 
-							y = vehicles[partNum].SpawnPoint.y, 
+							x = vehicles[partNum].SpawnPoint.x,
+							y = vehicles[partNum].SpawnPoint.y,
 							z = vehicles[partNum].SpawnPoint.z
 						}, vehicles[partNum].Heading, function(vehicle)
 							TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
@@ -454,8 +503,8 @@ function OpenVehicleSpawnerMenu(station, partNum)
 							if canTakeService then
 
 								ESX.Game.SpawnVehicle(model, {
-									x = vehicles[partNum].SpawnPoint.x, 
-									y = vehicles[partNum].SpawnPoint.y, 
+									x = vehicles[partNum].SpawnPoint.x,
+									y = vehicles[partNum].SpawnPoint.y,
 									z = vehicles[partNum].SpawnPoint.z
 								}, vehicles[partNum].Heading, function(vehicle)
 									TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
@@ -685,7 +734,7 @@ function OpenPoliceActionsMenu()
 				)
 
 			end
-			
+
 			if data.current.value == 'animations' then
 
                                 ESX.UI.Menu.Open(
@@ -719,7 +768,7 @@ function OpenPoliceActionsMenu()
                                                 end)
 
                                             end
-            
+
                                             if data2.current.value == 'take_notes' then
 
                                                 Citizen.CreateThread(function()
@@ -932,7 +981,7 @@ function OpenIdentityCardMenu(player)
 			local dobLabel 		= nil
 			local heightLabel 	= nil
 			local idLabel 		= nil
-			
+
 			if data.job.grade_label ~= nil and  data.job.grade_label ~= '' then
 				jobLabel = 'Job : ' .. data.job.label .. ' - ' .. data.job.grade_label
 			else
@@ -944,7 +993,7 @@ function OpenIdentityCardMenu(player)
 			else
 				dobLabel = 'DOB : Unknown'
 			end
-			
+
 			local elements = {
 				{label = _U('name') .. data.firstname .. " " .. data.lastname, value = nil},
 				{label = dobLabel,              value = nil},
@@ -1224,7 +1273,7 @@ AddEventHandler('esx_policejob:OutVehicle', function(t)
     plyPos = GetEntityCoords(GetPlayerPed(-1),  true)
     local xnew = plyPos.x+2
     local ynew = plyPos.y+2
-   
+
     SetEntityCoords(GetPlayerPed(-1), xnew, ynew, plyPos.z)
 end)
 
@@ -2012,7 +2061,7 @@ Citizen.CreateThread(function()
 						then
 							TriggerServerEvent('esx_service:disableService', 'police')
 						end
-						
+
 					end
 
 					ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
