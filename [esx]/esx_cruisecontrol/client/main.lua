@@ -13,6 +13,7 @@ local Keys = {
 local Player          = GetPlayerPed(-1)
 local CruisedSpeed    = 0
 local CruisedSpeedKm  = 0
+local VehicleVectorY  = 0
 
 ESX = nil
 
@@ -43,24 +44,34 @@ function TriggerCruiseControl ()
       Citizen.CreateThread(function ()
         while CruisedSpeed > 0 and IsInVehicle() == Player do
           Wait(0)
-          local vehicle = GetVehicle()
 
-          if IsVehicleOnAllWheels(GetVehicle()) and GetVehiculeSpeed() < CruisedSpeed then
+          if not IsTurningOrHandBraking() and GetVehiculeSpeed() < (CruisedSpeed - 1.5) then
+            CruisedSpeed = 0
+            ESX.ShowNotification('Désactivé')
+            break
+          end
+
+          if not IsTurningOrHandBraking() and IsDriver() and IsVehicleOnAllWheels(GetVehicle()) and GetVehiculeSpeed() < CruisedSpeed then
             SetVehicleForwardSpeed(GetVehicle(), CruisedSpeed)
           end
 
-          if ()
+          if IsControlJustPressed(1, Keys['Y']) then
+            CruisedSpeed = GetVehiculeSpeed()
+            CruisedSpeedKm = TransformToKm(CruisedSpeed)
+          end
 
+          if IsControlJustPressed(2, 72) then
+            CruisedSpeed = 0
+            ESX.ShowNotification('Désactivé')
+          end
         end
       end)
-    else
-      CruisedSpeed = 0
-      ESX.ShowNotification('Désactivé')
     end
-  else
-    CruisedSpeed = 0
-    ESX.ShowNotification('Désactivé')
   end
+end
+
+function IsTurningOrHandBraking ()
+  return IsControlPressed(2, 76) or IsControlPressed(2, 63) or IsControlPressed(2, 64)
 end
 
 function IsDriving ()
@@ -73,6 +84,10 @@ end
 
 function IsInVehicle ()
   return GetPedInVehicleSeat(GetVehicle(), -1)
+end
+
+function IsDriver ()
+  return GetPedInVehicleSeat(GetVehiclePedIsIn(Player, false), -1) == Player
 end
 
 function GetVehiculeSpeed ()
