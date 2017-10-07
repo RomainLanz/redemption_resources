@@ -27,7 +27,7 @@ end)
 Citizen.CreateThread(function ()
   while true do
     Wait(0)
-    if IsControlJustPressed(1, Keys['Y']) IsDriver() then
+    if IsControlJustPressed(1, Keys['Y']) and IsDriver() then
       Player = GetPlayerPed(-1)
       TriggerCruiseControl()
     end

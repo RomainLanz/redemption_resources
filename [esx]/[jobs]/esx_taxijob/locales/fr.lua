@@ -27,6 +27,6 @@ Locales['fr'] = {
 	['must_in_taxi'] = 'vous devez être dans un taxi pour commencer la mission',
 	['must_in_vehicle'] = 'vous devez être dans un véhicule pour commencer la mission',
 	['have_earned'] = 'vous avez gagné ~g~$',
-	['comp_earned'] = 'votre société a gagné ~g~$',
+	['comp_earned'] = 'votre société a gagnée ~g~$',
 
 }

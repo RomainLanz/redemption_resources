@@ -191,7 +191,7 @@ function OpenCloakroomMenu()
 						SetPedComponentVariation(GetPlayerPed(-1), 10, 8, 2, 0)--Grade
             SetPedComponentVariation(GetPlayerPed(-1), 5, 0, 0, 2)  --Bag
 						SetPedPropIndex(GetPlayerPed(-1), 2, 2, 0, 1)--Oreillete
-						SetPedPropIndex(GetPlayerPed(-1), 6, 3, 0, 1)--Montre§
+						SetPedPropIndex(GetPlayerPed(-1), 6, 3, 0, 1)--Montre
 
             ClearPedProp(GetPlayerPed(-1),  0)  -- Helmet
 					else

@@ -18,23 +18,16 @@ AddEventHandler('esx_taxijob:success', function()
   local total          = math.random(Config.NPCJobEarnings.min, Config.NPCJobEarnings.max);
   local societyAccount = nil
 
-  if xPlayer.job.grade >= 3 then
-    total = total * 2
-  end
-
   TriggerEvent('esx_addonaccount:getSharedAccount', 'society_taxi', function(account)
     societyAccount = account
   end)
 
   if societyAccount ~= nil then
 
-    local playerMoney  = math.floor(total / 100 * 30)
-    local societyMoney = math.floor(total / 100 * 70)
+    local societyMoney = math.floor(total)
 
-    xPlayer.addMoney(playerMoney)
     societyAccount.addMoney(societyMoney)
 
-    TriggerClientEvent('esx:showNotification', xPlayer.source, _U('have_earned') .. playerMoney)
     TriggerClientEvent('esx:showNotification', xPlayer.source, _U('comp_earned') .. societyMoney)
 
   else

@@ -8,7 +8,7 @@ Config.Jobs.fuel = {
 			Spawner = 1,
 			Hash = "phantom",
 			Trailer = "tanker",
-			HasCaution = true
+			HasCaution = false
 		}
 	},
 	Zones = {
