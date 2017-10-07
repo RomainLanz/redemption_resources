@@ -8,7 +8,7 @@ Config.Jobs.fisherman = {
 			Spawner = 1,
 			Hash = "benson",
 			Trailer = "none",
-			HasCaution = true
+			HasCaution = false
 		},
 		Boat = {
 			Spawner = 2,
@@ -158,7 +158,7 @@ Config.Jobs.fisherman = {
 					time   = 500,
 					remove = 1,
 					max    = 100, -- if not present, probably an error at itemQtty >= item.max in esx_jobs_sv.lua
-					price  = 7,
+					price  = 8,
 					requires = "fish",
 					requires_name = _U('fm_fish'),
 					drop   = 100

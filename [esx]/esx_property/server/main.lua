@@ -29,7 +29,7 @@ function SetPropertyOwned(name, price, rented, owner)
 			for i=1, #xPlayers, 1 do
 
 				local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-				
+
 				if xPlayer.identifier == owner then
 
 					TriggerClientEvent('esx_property:setPropertyOwned', xPlayer.source, name, true)
@@ -64,7 +64,7 @@ function RemoveOwnedProperty(name, owner)
 			for i=1, #xPlayers, 1 do
 
 				local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-				
+
 				if xPlayer.identifier == owner then
 					TriggerClientEvent('esx_property:setPropertyOwned', xPlayer.source, name, false)
 					TriggerClientEvent('esx:showNotification', xPlayer.source, _U('made_property'))
@@ -193,7 +193,7 @@ AddEventHandler('esx_property:rentProperty', function(propertyName)
 	local xPlayer  = ESX.GetPlayerFromId(source)
 	local property = GetProperty(propertyName)
 
-	SetPropertyOwned(propertyName, property.price / 200, true, xPlayer.identifier)
+	SetPropertyOwned(propertyName, property.price / 100, true, xPlayer.identifier)
 
 end)
 
@@ -532,7 +532,7 @@ function PayRent(d, h, m)
 						for j=1, #xPlayers, 1 do
 
 							local xPlayer2 = ESX.GetPlayerFromId(xPlayers[j])
-							
+
 							if xPlayer2.identifier == result[i].owner then
 								foundPlayer = true
 								xPlayer     = xPlayer2

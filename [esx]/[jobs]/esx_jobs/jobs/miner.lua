@@ -8,7 +8,7 @@ Config.Jobs.miner = {
 			Spawner = 1,
 			Hash = "rubble",
 			Trailer = "none",
-			HasCaution = true
+			HasCaution = false
 		}
 	},
 	Zones = {
@@ -208,7 +208,7 @@ Config.Jobs.miner = {
 					time   = 500,
 					remove = 1,
 					max    = 42, -- if not present, probably an error at itemQtty >= item.max in esx_jobs_sv.lua
-					price  = 6,
+					price  = 8,
 					requires = "iron",
 					requires_name = _U('m_iron'),
 					drop   = 100
@@ -235,7 +235,7 @@ Config.Jobs.miner = {
 					time   = 500,
 					remove = 1,
 					max    = 21, -- if not present, probably an error at itemQtty >= item.max in esx_jobs_sv.lua
-					price  = 13,
+					price  = 15,
 					requires = "gold",
 					requires_name = _U('m_gold'),
 					drop   = 100

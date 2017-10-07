@@ -27,10 +27,10 @@ local function Harvest(source)
 			local GazBottleQuantity = xPlayer.getInventoryItem('gazbottle').count
 
 			if GazBottleQuantity >= 5 then
-				TriggerClientEvent('esx:showNotification', source, '~r~Vous n\'avez plus de place')		
-			else   
+				TriggerClientEvent('esx:showNotification', source, '~r~Vous n\'avez plus de place')
+			else
                 xPlayer.addInventoryItem('gazbottle', 1)
-					
+
 				Harvest(source)
 			end
 		end
@@ -60,10 +60,10 @@ local function Harvest2(source)
 			local xPlayer  = ESX.GetPlayerFromId(source)
 			local FixToolQuantity  = xPlayer.getInventoryItem('fixtool').count
 			if FixToolQuantity >= 5 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~plus de place')				
+				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~plus de place')
 			else
                 xPlayer.addInventoryItem('fixtool', 1)
-					
+
 				Harvest2(source)
 			end
 		end
@@ -93,10 +93,10 @@ local function Harvest3(source)
 			local xPlayer  = ESX.GetPlayerFromId(source)
 			local CaroToolQuantity  = xPlayer.getInventoryItem('carotool').count
             if CaroToolQuantity >= 5 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~plus de place')					
+				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~plus de place')
 			else
                 xPlayer.addInventoryItem('carotool', 1)
-					
+
 				Harvest3(source)
 			end
 		end
@@ -127,11 +127,11 @@ local function Craft(source)
 			local GazBottleQuantity = xPlayer.getInventoryItem('gazbottle').count
 
 			if GazBottleQuantity <= 0 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ de bouteille de gaz')		
-			else   
+				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ de bouteille de gaz')
+			else
                 xPlayer.removeInventoryItem('gazbottle', 1)
                 xPlayer.addInventoryItem('blowpipe', 1)
-					
+
 				Craft(source)
 			end
 		end
@@ -161,11 +161,11 @@ local function Craft2(source)
 			local xPlayer  = ESX.GetPlayerFromId(source)
 			local FixToolQuantity  = xPlayer.getInventoryItem('fixtool').count
 			if FixToolQuantity <= 0 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ d\'outils réparation')				
+				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ d\'outils réparation')
 			else
                 xPlayer.removeInventoryItem('fixtool', 1)
                 xPlayer.addInventoryItem('fixkit', 1)
-					
+
 				Craft2(source)
 			end
 		end
@@ -195,11 +195,11 @@ local function Craft3(source)
 			local xPlayer  = ESX.GetPlayerFromId(source)
 			local CaroToolQuantity  = xPlayer.getInventoryItem('carotool').count
             if CaroToolQuantity <= 0 then
-				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ d\'outils carosserie')					
+				TriggerClientEvent('esx:showNotification', source, 'Vous n\'avez ~r~pas assez~s~ d\'outils carosserie')
 			else
                 xPlayer.removeInventoryItem('carotool', 1)
                 xPlayer.addInventoryItem('carokit', 1)
-					
+
 				Craft3(source)
 			end
 		end
@@ -236,8 +236,8 @@ AddEventHandler('esx_mecanojob:onNPCJobMissionCompleted', function()
   TriggerEvent('esx_addonaccount:getSharedAccount', 'society_mecano', function(account)
   	account.addMoney(total)
   end)
- 	
- 	TriggerClientEvent("esx:showNotification", _source, "Votre société a ~g~gagné~s~ ~g~$".. total)
+
+ 	TriggerClientEvent("esx:showNotification", _source, "Votre société a ~g~gagnée~s~ ~g~$".. total)
 
 end)
 
