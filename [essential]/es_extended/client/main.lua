@@ -24,6 +24,14 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
   ESX.PlayerLoaded  = true
   ESX.PlayerData    = xPlayer
 
+  ESX.UI.HUD.RegisterElement('account_bank', 0, 0, '<div>💵&nbsp;{{money}}</div>', {
+    money = 0
+  })
+
+  ESX.UI.HUD.UpdateElement('account_bank', {
+    money = xPlayer.accounts[1].money
+  })
+
   local jobTpl = '<div>{{job_label}} [{{grade_label}}]</div>'
 
   if xPlayer.job.grade_label == '' then

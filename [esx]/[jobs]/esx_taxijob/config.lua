@@ -1,6 +1,6 @@
 Config                        = {}
 Config.DrawDistance           = 100.0
-Config.NPCJobEarnings         = { min = 200, max = 220 }
+Config.NPCJobEarnings         = { min = 250, max = 300 }
 Config.MaxInService           = -1
 Config.EnablePlayerManagement = true
 Config.EnableSocietyOwnedVehicles = false
@@ -9,7 +9,7 @@ Config.Locale = 'fr'
 Config.Zones = {
 
 	TaxiActions = {
-		Pos   = {x = 915.039, y = -162.187, z = 73.684},
+		Pos   = {x = 895.062, y = -179.296, z = 73.700},
 		Size  = {x = 1.5, y = 1.5, z = 1.0},
 		Color = {r = 204, g = 204, b = 0},
 		Type  = 1
