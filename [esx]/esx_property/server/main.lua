@@ -193,7 +193,7 @@ AddEventHandler('esx_property:rentProperty', function(propertyName)
   local xPlayer  = ESX.GetPlayerFromId(source)
   local property = GetProperty(propertyName)
 
-  SetPropertyOwned(propertyName, property.price / 200, true, xPlayer.identifier)
+  SetPropertyOwned(propertyName, property.price / 100, true, xPlayer.identifier)
 
 end)
 
