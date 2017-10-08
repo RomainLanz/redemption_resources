@@ -152,14 +152,15 @@ function OpenTaxiActionsMenu()
 	ESX.UI.Menu.Open(
 		'default', GetCurrentResourceName(), 'taxi_actions',
 		{
-			title    = 'Taxi',
+      title    = 'Taxi',
+      align    = 'left',
 			elements = elements
 		},
 		function(data, menu)
 
 			if data.current.value == 'put_stock' then
 		    OpenPutStocksMenu()
-	    end	
+	    end
 
 	    if data.current.value == 'get_stock' then
 		    OpenGetStocksMenu()
@@ -273,7 +274,8 @@ function OpenMobileTaxiActionsMenu()
 	ESX.UI.Menu.Open(
 		'default', GetCurrentResourceName(), 'mobile_taxi_actions',
 		{
-			title    = 'Taxi',
+      title    = 'Taxi',
+      align    = 'left',
 			elements = {
 				{label = _U('billing'), value = 'billing'}
 			}
@@ -338,7 +340,8 @@ function OpenGetStocksMenu()
 	  ESX.UI.Menu.Open(
 	    'default', GetCurrentResourceName(), 'stocks_menu',
 	    {
-	      title    = 'Taxi Stock',
+        title    = 'Taxi Stock',
+        align    = 'left',
 	      elements = elements
 	    },
 	    function(data, menu)
@@ -399,7 +402,8 @@ function OpenPutStocksMenu()
 	  ESX.UI.Menu.Open(
 	    'default', GetCurrentResourceName(), 'stocks_menu',
 	    {
-	      title    = 'Inventaire',
+        title    = 'Inventaire',
+        align    = 'left',
 	      elements = elements
 	    },
 	    function(data, menu)
@@ -463,11 +467,12 @@ AddEventHandler('esx_taxijob:hasEnteredMarker', function(zone)
 	if zone == 'VehicleDeleter' then
 
 		local playerPed = GetPlayerPed(-1)
+    local vehicle = GetVehiclePedIsIn(playerPed, false)
 
 		if IsPedInAnyVehicle(playerPed,  false) then
 			CurrentAction     = 'delete_vehicle'
 			CurrentActionMsg  = _U('store_veh')
-			CurrentActionData = {}
+			CurrentActionData = { vehicle = vehicle}
 		end
 
 	end

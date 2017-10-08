@@ -31,13 +31,13 @@ html {
      1px  1px 0 #000;
 
   text-align: right;
-  top       : 110;
+  top       : 105;
   right     : 2.5%;
 }
 
 #inventory_notifications {
-  font-family: bankgothic; 
-  position   : absolute; 
+  font-family: bankgothic;
+  position   : absolute;
   right      : 100;
   bottom     : 100;
   font-size  : 2em;
@@ -58,7 +58,7 @@ html {
     color           : #fff;
     position        : absolute;
     left            : 40;
-    top             : 0; 
+    top             : 0;
 }
 
 .menu .head {
@@ -80,8 +80,8 @@ html {
 .menu .head span {
   font-family: 'Pricedown';
   font-size: 28px;
-  padding-left: 15px; 
-  padding-top: 6px; 
+  padding-left: 15px;
+  padding-top: 6px;
 }
 
 .menu .menu-items .menu-item {
