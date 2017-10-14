@@ -5,15 +5,15 @@ Config.MarkerSize             = { x = 1.5, y = 1.5, z = 1.0 }
 Config.MarkerColor            = { r = 50, g = 50, b = 204 }
 Config.EnablePlayerManagement = true
 Config.EnableArmoryManagement = true
-Config.EnableESXIdentity       = true
-Config.EnableLicenses             = false
+Config.EnableESXIdentity      = true
+Config.EnableLicenses         = true
 Config.EnableNonFreemodePeds  = false
 Config.EnableSocietyOwnedVehicles = false
 Config.MaxInService           = -1
 Config.Locale       		      = 'fr'
 
 Config.PoliceStations = {
-	
+
 	LSPD = {
 
 		Blip = {

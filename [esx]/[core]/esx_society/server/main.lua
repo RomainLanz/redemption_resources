@@ -167,7 +167,7 @@ AddEventHandler('esx_society:removeVehicleFromGarage', function(societyName, veh
   local society = GetSociety(societyName)
 
   TriggerEvent('esx_datastore:getSharedDataStore', society.datastore, function(store)
-    
+
     local garage = store.get('garage') or {}
 
     for i=1, #garage, 1 do

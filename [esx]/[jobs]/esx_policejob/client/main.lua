@@ -992,7 +992,7 @@ function OpenIdentityCardMenu(player)
 				dobLabel = 'DOB : ' .. data.dob
 			else
 				dobLabel = 'DOB : Unknown'
-			end
+      end
 
 			local elements = {
 				{label = _U('name') .. data.firstname .. " " .. data.lastname, value = nil},
@@ -1008,9 +1008,9 @@ function OpenIdentityCardMenu(player)
 
 				table.insert(elements, {label = '--- Licenses ---', value = nil})
 
-				for i=1, #data.licenses, 1 do
-					table.insert(elements, {label = data.licenses[i].label, value = nil})
-				end
+        for i=1, #data.licenses, 1 do
+          table.insert(elements, { label = data.licenses[i].label, value = nil })
+        end
 
 			end
 
@@ -1056,9 +1056,9 @@ function OpenIdentityCardMenu(player)
 
 				table.insert(elements, {label = '--- Licenses ---', value = nil})
 
-				for i=1, #data.licenses, 1 do
-					table.insert(elements, {label = data.licenses[i].label, value = nil})
-				end
+        for i=1, #data.licenses, 1 do
+          table.insert(elements, {label = data.licenses[i].label, value = nil})
+        end
 
 			end
 

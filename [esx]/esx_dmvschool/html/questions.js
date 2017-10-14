@@ -1,0 +1,36 @@
+var tableauQuestion = [
+    {   question : "A quel vitesse peut-on rouler en ville :",
+        propositionA : "50",
+        propositionB : "70",
+        propositionC : "80",
+        propositionD : "90",
+        reponse : "B"},
+
+    {   question : "A quel vitesse peut-on rouler en dehors de la ville :",
+        propositionA : "80",
+        propositionB : "90",
+        propositionC : "100",
+        propositionD : "110",
+        reponse : "D"},
+
+    {   question : "A quel vitesse peut-on rouler sur l'autoroute :",
+        propositionA : "110",
+        propositionB : "130",
+        propositionC : "140",
+        propositionD : "150",
+        reponse : "D"},
+
+    {   question : "Quand est-ce que vous pouvez passer un feu rouge",
+        propositionA : "Après avoir marqué un stop et que personne est sur l'intersection",
+        propositionB : "Quand il n'y a personne sur l'intersection",
+        propositionC : "Tout le temps",
+        propositionD : "Jamais",
+        reponse : "A"},
+
+   {   question : "Vous entendez des sirènes, que faites-vous",
+        propositionA : "Vous ralentissez",
+        propositionB : "Vous accélérez",
+        propositionC : "Vous vous arrêtez",
+        propositionD : "Vous les poursuivez",
+        reponse : "A"},
+]

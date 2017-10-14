@@ -19,5 +19,6 @@ Locales['fr'] = {
 	['withdraw_amount']                  = 'montant du retrait',
 	['withdraw_society_money']           = 'retirer argent société',
 	['bank_customer']					 = 'client Banque',
-	['boss_actions'] = 'action Patron',
+  ['boss_actions'] = 'action Patron',
+  ['no_turbo'] = 'pas de turbo',
 }

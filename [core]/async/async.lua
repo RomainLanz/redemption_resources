@@ -6,17 +6,22 @@ Async = {}
 
 function Async.parallel(tasks, cb)
 
+  if #tasks == 0 then
+    cb({})
+    return
+  end
+
 	local remaining = #tasks
 	local results   = {}
 
 	for i=1, #tasks, 1 do
-		
+
 		CreateThread(function()
-			
+
 			tasks[i](function(result)
-				
+
 				table.insert(results, result)
-				
+
 				remaining = remaining - 1;
 
 				if remaining == 0 then
@@ -33,9 +38,10 @@ end
 
 function Async.parallelLimit(tasks, limit, cb)
 
-	if #tasks == 0 then
-		cb({})
-	end
+  if #tasks == 0 then
+    cb({})
+    return
+  end
 
 	local remaining = #tasks
 	local running   = 0
@@ -53,15 +59,15 @@ function Async.parallelLimit(tasks, limit, cb)
 		end
 
 		while running < limit and #queue > 0 do
-			
+
 			local task = table.remove(queue, 1)
-			
+
 			running = running + 1
 
 			task(function(result)
-				
+
 				table.insert(results, result)
-				
+
 				remaining = remaining - 1;
 				running   = running - 1
 

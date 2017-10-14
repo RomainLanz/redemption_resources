@@ -1,10 +1,10 @@
-Config                        = {}
-Config.DrawDistance           = 100.0
-Config.NPCJobEarnings         = { min = 250, max = 300 }
-Config.MaxInService           = -1
-Config.EnablePlayerManagement = true
-Config.EnableSocietyOwnedVehicles = false
-Config.Locale = 'fr'
+Config                            = {}
+Config.DrawDistance               = 100.0
+Config.NPCJobEarnings             = { min = 250, max = 300 }
+Config.MaxInService               = -1
+Config.EnablePlayerManagement     = true
+Config.EnableSocietyOwnedVehicles = true
+Config.Locale                     = 'fr'
 
 Config.Zones = {
 

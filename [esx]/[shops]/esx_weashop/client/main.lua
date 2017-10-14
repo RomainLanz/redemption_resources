@@ -4,7 +4,8 @@ local LastZone                = nil
 local CurrentAction           = nil
 local CurrentActionMsg        = ''
 local CurrentActionData       = {}
-    
+local Licenses                = {}
+
 Citizen.CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
@@ -12,8 +13,15 @@ Citizen.CreateThread(function()
 	end
 end)
 
+RegisterNetEvent('esx_weashop:loadLicenses')
+AddEventHandler('esx_weashop:loadLicenses', function(licenses)
+  for i=1, #licenses, 1 do
+    Licenses[licenses[i].type] = true
+  end
+end)
+
 AddEventHandler('onClientMapStart', function()
-	
+
 	ESX.TriggerServerCallback('esx_weashop:requestDBItems', function(ShopItems)
 		for k,v in pairs(ShopItems) do
 			Config.Zones[k].Items = v
@@ -35,9 +43,9 @@ function OpenBuyLicenseMenu (zone)
         { label = 'Non', value = 'no' },
       },
     },
-    function (data, menu)        
+    function (data, menu)
       if data.current.value == 'yes' then
-        TriggerServerEvent('red:buyLicense', 'weapon', 5000)
+        TriggerServerEvent('esx_weashop:buyLicense')
       end
 
       menu.close()
@@ -75,13 +83,13 @@ function OpenShopMenu(zone)
       align  = 'left',
 			elements = elements
 		},
-		function(data, menu)				
+		function(data, menu)
 			TriggerServerEvent('esx_weashop:buyItem', data.current.value, data.current.price, zone)
 		end,
 		function(data, menu)
-			
+
 			menu.close()
-			
+
 			CurrentAction     = 'shop_menu'
 			CurrentActionMsg  = _U('shop_menu')
 			CurrentActionData = {zone = zone}
@@ -90,7 +98,7 @@ function OpenShopMenu(zone)
 end
 
 AddEventHandler('esx_weashop:hasEnteredMarker', function(zone)
-	
+
 	CurrentAction     = 'shop_menu'
 	CurrentActionMsg  = _U('shop_menu')
 	CurrentActionData = {zone = zone}
@@ -125,15 +133,15 @@ end)
 
 -- Display markers
 Citizen.CreateThread(function()
-  while true do    
+  while true do
     Wait(0)
-    local coords = GetEntityCoords(GetPlayerPed(-1))      
+    local coords = GetEntityCoords(GetPlayerPed(-1))
     for k,v in pairs(Config.Zones) do
       for i = 1, #v.Pos, 1 do
         if(Config.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos[i].x, v.Pos[i].y, v.Pos[i].z, true) < Config.DrawDistance) then
           DrawMarker(Config.Type, v.Pos[i].x, v.Pos[i].y, v.Pos[i].z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.Size.x, Config.Size.y, Config.Size.z, Config.Color.r, Config.Color.g, Config.Color.b, 100, false, true, 2, false, false, false, false)
         end
-      end      
+      end
     end
   end
 end)
@@ -172,33 +180,23 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     if CurrentAction ~= nil then
-      
+
       SetTextComponentFormat('STRING')
       AddTextComponentString(CurrentActionMsg)
       DisplayHelpTextFromStringLabel(0, 0, 1, -1)
-      
-      if IsControlJustReleased(0, 38) then        
-        
+
+      if IsControlJustReleased(0, 38) then
+
         if CurrentAction == 'shop_menu' then
-          ESX.TriggerServerCallback('red:getPlayerLicenses', function (licenses)
-            local weaponLicense = false
-
-            for i = 1, #licenses, 1 do
-              if (licenses[i].name == 'weapon') then
-                weaponLicense = true
-              end
-            end
-
-            if weaponLicense or Config.Zones[CurrentActionData.zone].legal == 1 then
-              OpenShopMenu(CurrentActionData.zone)
-            else
-              OpenBuyLicenseMenu()
-            end
-          end)
+          if Licenses['weapon'] ~= nil or Config.Zones[CurrentActionData.zone].legal == 1 then
+            OpenShopMenu(CurrentActionData.zone)
+          else
+            OpenBuyLicenseMenu()
+          end
         end
-        
-        CurrentAction = nil         
-      
+
+        CurrentAction = nil
+
       end
 
     end
