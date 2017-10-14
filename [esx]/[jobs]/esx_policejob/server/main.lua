@@ -17,7 +17,7 @@ end)
 
 RegisterServerEvent('esx_policejob:confiscatePlayerItem')
 AddEventHandler('esx_policejob:confiscatePlayerItem', function(target, itemType, itemName, amount)
-	
+
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
@@ -123,20 +123,20 @@ end)
 ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, cb, target)
 
 	if Config.EnableESXIdentity  then
-	
+
 		local xPlayer = ESX.GetPlayerFromId(target)
-		
+
 		local identifier = GetPlayerIdentifiers(target)[1]
-		
+
 		local result = MySQL.Sync.fetchAll("SELECT * FROM characters  WHERE identifier = @identifier", {
 			['@identifier'] = identifier
 		})
-			
+
 		local user 			= result[1]
-		local firstname 		= user['firstname']
-		local lastname  		= user['lastname']
-		local dob           		= user['dateofbirth']
-		
+		local firstname = user['firstname']
+		local lastname  = user['lastname']
+		local dob       = user['dateofbirth']
+
 		local data = {
 			job        	= xPlayer.job,
 			inventory  	= xPlayer.inventory,
@@ -146,26 +146,23 @@ ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, 
 			lastname   	= lastname,
 			dob         = dob,
 		}
-		
-		TriggerEvent('esx_status:getStatus', source, 'drunk', function(status)
 
+		TriggerEvent('esx_status:getStatus', source, 'drunk', function(status)
 			if status ~= nil then
 				data.drunk = math.floor(status.percent)
 			end
-			
 		end)
 
-		if Config.EnableLicenses then
-			TriggerEvent('esx_license:getLicenses', _source, function(licenses)
-				data.licenses = licenses
-				cb(data)
-			end)
-		else
-			cb(data)
-		end
-	
+    if Config.EnableLicenses then
+      TriggerEvent('esx_license:getLicenses', target, function (licenses)
+        data.licenses = licenses
+        cb(data)
+      end)
+    else
+      cb(data)
+    end
 	else
-	
+
 		local xPlayer = ESX.GetPlayerFromId(target)
 
 		local data = {
@@ -175,21 +172,21 @@ ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, 
 			accounts   = xPlayer.accounts,
 			weapons    = xPlayer.loadout
 		}
-			
+
 		TriggerEvent('esx_status:getStatus', _source, 'drunk', function(status)
 
 			if status ~= nil then
 				data.drunk = status.getPercent()
 			end
-			
+
 		end)
 
-		TriggerEvent('esx_license:getLicenses', _source, function(licenses)
-			data.licenses = licenses
-		end)
+    TriggerEvent('esx_license:getLicenses', _source, function(licenses)
+      data.licenses = licenses
+    end)
 
 		cb(data)
-		
+
 	end
 
 end)
@@ -211,16 +208,16 @@ end)
 ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb, plate)
 
 	if Config.EnableESXIdentity  then
-	
+
 		MySQL.Async.fetchAll(
 			'SELECT * FROM owned_vehicles',
 			{},
 			function(result)
-			
+
 				local foundIdentifier = nil
 
 				for i=1, #result, 1 do
-				
+
 					local vehicleData = json.decode(result[i].vehicle)
 
 					if vehicleData.plate == plate then
@@ -238,7 +235,7 @@ ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb,
 							['@identifier'] = foundIdentifier
 						},
 						function(result)
-							
+
 							local ownerName = result[1].firstname .. " " .. result[1].lastname
 
 							local infos = {
@@ -250,7 +247,7 @@ ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb,
 
 						end
 					)
-			
+
 				else
 
 					local infos = {
@@ -262,19 +259,19 @@ ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb,
 				end
 
 			end
-		)	
-	
+		)
+
 	else
-	
+
 		MySQL.Async.fetchAll(
 			'SELECT * FROM owned_vehicles',
 			{},
 			function(result)
-			
+
 				local foundIdentifier = nil
 
 				for i=1, #result, 1 do
-				
+
 					local vehicleData = json.decode(result[i].vehicle)
 
 					if vehicleData.plate == plate then
@@ -302,7 +299,7 @@ ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb,
 
 						end
 					)
-			
+
 				else
 
 					local infos = {
@@ -315,7 +312,7 @@ ESX.RegisterServerCallback('esx_policejob:getVehicleInfos', function(source, cb,
 
 			end
 		)
-		
+
 	end
 
 end)
@@ -337,7 +334,7 @@ ESX.RegisterServerCallback('esx_policejob:getArmoryWeapons', function(source, cb
 end)
 
 ESX.RegisterServerCallback('esx_policejob:addArmoryWeapon', function(source, cb, weaponName)
-	
+
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	xPlayer.removeWeapon(weaponName)
@@ -375,7 +372,7 @@ ESX.RegisterServerCallback('esx_policejob:addArmoryWeapon', function(source, cb,
 end)
 
 ESX.RegisterServerCallback('esx_policejob:removeArmoryWeapon', function(source, cb, weaponName)
-	
+
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	xPlayer.addWeapon(weaponName, 1000)
@@ -414,7 +411,7 @@ end)
 
 
 ESX.RegisterServerCallback('esx_policejob:buy', function(source, cb, amount)
-	
+
 	TriggerEvent('esx_addonaccount:getSharedAccount', 'society_police', function(account)
 
 		if account.money >= amount then

@@ -60,6 +60,12 @@ ESX.RegisterServerCallback('esx_bankerjob:getCustomers', function (source, cb)
   cb(customers)
 end)
 
+RegisterServerEvent('esx_bankerjob:calculateBankSavings')
+AddEventHandler('esx_bankerjob:calculateBankSavings', function ()
+  print('esx_bankerjob:calculateBankSavings')
+  CalculateBankSavings()
+end)
+
 function CalculateBankSavings (d, h, m)
   local asyncTasks = {}
 
@@ -130,8 +136,4 @@ function CalculateBankSavings (d, h, m)
 end
 
 TriggerEvent('cron:runAt', 0, 0, CalculateBankSavings)
-TriggerEvent('cron:runAt', 4, 0, CalculateBankSavings)
-TriggerEvent('cron:runAt', 8, 0, CalculateBankSavings)
 TriggerEvent('cron:runAt', 12, 0, CalculateBankSavings)
-TriggerEvent('cron:runAt', 16, 0, CalculateBankSavings)
-TriggerEvent('cron:runAt', 20, 0, CalculateBankSavings)
